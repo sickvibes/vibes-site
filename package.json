@@ -2,6 +2,9 @@
   "name": "@sickvibes/vibes-site",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "npm": ">=7.0.0"
+  },
   "scripts": {
     "dev": "webpack serve --config=./webpack.dev.js",
     "build": "webpack build --config=./webpack.build.js",
