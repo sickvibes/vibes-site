@@ -1,0 +1,50 @@
+[[redirects]]
+  from = "/protocol"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/tokens"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/tokens/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/sqncr"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/sqncr/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/claim/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/wallet"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/infuse"
+  to = "/index.html"
+  status = 200
+
