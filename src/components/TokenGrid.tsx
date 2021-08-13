@@ -13,7 +13,7 @@ const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
     container: {
       display: 'grid',
-      alignItems: 'end',
+      alignItems: 'center',
       '@media(min-width: 800px)': {
         gridTemplateColumns: '1fr 1fr',
       },
