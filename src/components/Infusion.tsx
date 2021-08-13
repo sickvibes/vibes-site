@@ -104,6 +104,8 @@ export const Infusion: FunctionComponent = () => {
               <Button onClick={() => setInfuser('0xA3e51498579Db0f7bb1ec9E3093B2F44158E25a5')}>🎨 sgt</Button>
               <Button onClick={() => setInfuser('0xb0432D4911Bc9283a853987cBb7704e123CE7393')}>🎨 wrecks</Button>
               <Button onClick={() => setInfuser('0xC2bD7faca51549dbB8E701f48baAF5C135374613')}>🎨 polyforms</Button>
+              <Button onClick={() => setInfuser('0x0E696712DaDEd627f370Ec9Bbf9F7931cf19863D')}>🎨 voidkross</Button>
+              <Button onClick={() => setInfuser('0x6Fd6AfE08202D7aefDF533ee44dc0E62941C4B22')}>🎨 max capacity</Button>
               <Button onClick={() => setNft(getContracts().sqncr)}>⚙️ SQNCR</Button>
             </p>
           </PageSection>
