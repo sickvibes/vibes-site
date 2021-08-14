@@ -18,6 +18,7 @@ export const WalletStats: FunctionComponent = () => {
 
   const owned = tokens?.filter((t) => t.owner === accountView.address) ?? [];
   const claimable = owned.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
+  const mining = owned.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
 
   return (
     <div>
@@ -31,6 +32,9 @@ export const WalletStats: FunctionComponent = () => {
               <br />
               🤑 <strong>claimable</strong>: <DecimalNumber number={claimable} decimals={0} /> <Vibes /> ($
               <MarketPrice amount={claimable} price="vibesUsdcPrice" />)
+              <br />
+              💎 <strong>mining</strong>: <DecimalNumber number={mining} decimals={0} /> <Vibes /> ($
+              <MarketPrice amount={mining} price="vibesUsdcPrice" />) / day
               <br />
               🏛 <strong>voter power</strong>: <DecimalNumber number={accountView.votePower} decimals={0} />
               <br />
