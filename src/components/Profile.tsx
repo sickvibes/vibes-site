@@ -52,6 +52,7 @@ export const Profile: FunctionComponent<RouteComponentProps> = (props) => {
   const owned = tokens?.filter((t) => t.owner === address) ?? [];
   const infused = tokens?.filter((t) => t.infuser === address) ?? [];
   const created = tokens?.filter((t) => getMetadata(t)?.creator === address) ?? [];
+  const curated = infused.filter((t) => getMetadata(t)?.creator !== address);
 
   return (
     <>
@@ -77,6 +78,10 @@ export const Profile: FunctionComponent<RouteComponentProps> = (props) => {
         <NavLink to={`./infused`} className={classes.link} activeClassName={classes.active}>
           INFUSED
         </NavLink>
+        ] [
+        <NavLink to={`./curated`} className={classes.link} activeClassName={classes.active}>
+          CURATED
+        </NavLink>
         ]
       </PageSection>
       <PageSection>
@@ -89,6 +94,9 @@ export const Profile: FunctionComponent<RouteComponentProps> = (props) => {
           </Route>
           <Route path={`/profile/:address/infused`}>
             <TokenGrid views={infused} detailed />
+          </Route>
+          <Route path={`/profile/:address/curated`}>
+            <TokenGrid views={curated} detailed />
           </Route>
         </Switch>
       </PageSection>
