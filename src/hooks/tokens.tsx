@@ -15,7 +15,7 @@ export const useTokensImplementation = () => {
   const [status, setStatus] = useState<'loading' | 'ready'>('loading');
 
   const fetchTokens = async () => {
-    const tokens = await getRecentTokens({ limit: 100 });
+    const tokens = await getRecentTokens({ limit: 200 });
     const sswTokens = tokens.filter((t) => t.nft === getContracts().ssw);
     setTokens(tokens);
     const info = await batchGetAuctionInfo(sswTokens.map((t) => t.tokenId));
