@@ -99,6 +99,7 @@ export const Infusion: FunctionComponent = () => {
             <p>shortcuts:</p>
             <p>
               <Button onClick={() => setNft(getContracts().ssw)}>⚙️ SSW</Button>
+              <br />
               <Button onClick={() => setInfuser('0x303EeFeDeE1bA8e5d507a55465d946B2fea18583')}>🎨 bval</Button>
               <Button onClick={() => setInfuser('0x8AbAf5733742B1506F6a1255de0e37aEc76b7940')}>🎨 zamboni</Button>
               <Button onClick={() => setInfuser('0xA3e51498579Db0f7bb1ec9E3093B2F44158E25a5')}>🎨 sgt</Button>
@@ -106,7 +107,7 @@ export const Infusion: FunctionComponent = () => {
               <Button onClick={() => setInfuser('0xC2bD7faca51549dbB8E701f48baAF5C135374613')}>🎨 polyforms</Button>
               <Button onClick={() => setInfuser('0x0E696712DaDEd627f370Ec9Bbf9F7931cf19863D')}>🎨 voidkross</Button>
               <Button onClick={() => setInfuser('0x6Fd6AfE08202D7aefDF533ee44dc0E62941C4B22')}>🎨 max capacity</Button>
-              <Button onClick={() => setNft(getContracts().sqncr)}>⚙️ SQNCR</Button>
+              <Button onClick={() => setInfuser('0xa6bcB89f21E0BF71E08dEd426C142757791e17cf')}>🎨 shakti</Button>
             </p>
           </PageSection>
           <PageSection>
