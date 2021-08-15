@@ -14,6 +14,8 @@ import { TokenGrid } from './TokenGrid';
 import { useTokens } from '../hooks/tokens';
 import { NftBag } from '../lib/nft';
 import { NFTView } from '../web3/wellspringv2';
+import { BigNumber } from 'ethers';
+import { formatUnits } from 'ethers/lib/utils';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
@@ -57,6 +59,9 @@ export const Home: FunctionComponent = () => {
 
     // all recent for sale stuff not featured
     const recentForSale = tokens.filter((t) => getSaleInfo(t)?.forSale && bag.exists(t));
+    // const total = recentForSale.reduce((acc, t) => acc.add(getSaleInfo(t)?.currentBid?.bid ?? 0), BigNumber.from(0));
+    // console.log(formatUnits(total));
+
     recentForSale.forEach((t) => bag.take(t));
 
     const recent = tokens.filter((t) => bag.exists(t)).slice(0, 6);
@@ -126,12 +131,12 @@ export const Home: FunctionComponent = () => {
           </Content>
         </PageSection>
       )}
-      <PageSection>
+      {/* <PageSection>
         <Content>
           <Title>🌈 Recent VIBES NFTs</Title>
           <TokenGrid detailed views={view.recent} />
         </Content>
-      </PageSection>
+      </PageSection> */}
       <PageSection>
         <Divider />
       </PageSection>
