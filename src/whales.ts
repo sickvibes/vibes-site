@@ -1,0 +1,4 @@
+export const whalesSpottedInTheWild = [
+  '0xA186727FDAF90cD7d9972572E32C618Ce04206f8',
+  '0xd48D8cef2F1A7b29BAFb5E17e8B88bfEBaeC602a',
+];

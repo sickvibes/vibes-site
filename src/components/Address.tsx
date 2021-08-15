@@ -3,6 +3,7 @@ import { resolveTwitterId } from '../lib/proof-of-twitter';
 import { truncateHex } from '../lib/strings';
 import { lookupEnsName } from '../lib/ens';
 import { Button } from './Button';
+import { whalesSpottedInTheWild } from '../whales';
 
 interface Props {
   address: string;
@@ -42,11 +43,12 @@ export const Address: FunctionComponent<Props> = ({ address }) => {
     fetch();
   }, [address]);
 
-  if (resolved !== undefined) {
-    return <span>{resolved}</span>;
-  }
-
-  return <span>{truncateHex(address)}</span>;
+  return (
+    <span>
+      {whalesSpottedInTheWild.includes(address) && <>🐳</>}
+      {resolved ? resolved : truncateHex(address)}
+    </span>
+  );
 };
 
 export const ExplorerButton: FunctionComponent<Props> = ({ address }) => {
