@@ -16,6 +16,7 @@ import { NftBag } from '../lib/nft';
 import { NFTView } from '../web3/wellspringv2';
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
+import shuffle from 'lodash/shuffle';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
@@ -58,7 +59,7 @@ export const Home: FunctionComponent = () => {
     }
 
     // all recent for sale stuff not featured
-    const recentForSale = tokens.filter((t) => getSaleInfo(t)?.forSale && bag.exists(t));
+    const recentForSale = shuffle(tokens.filter((t) => getSaleInfo(t)?.forSale && bag.exists(t)));
     // const total = recentForSale.reduce((acc, t) => acc.add(getSaleInfo(t)?.currentBid?.bid ?? 0), BigNumber.from(0));
     // console.log(formatUnits(total));
 
