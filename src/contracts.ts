@@ -16,6 +16,9 @@ export const getContracts = () => {
     uniswapPoolStrategy: '0xD35BA61d9Bd9AFe04347D88e59A4328a65dC9F4B',
     votePowerTokenFacade: '0xc6194299cdd7f0574ad8d63e23fd33c612efff98',
 
+    // periph
+    infusionPool: '0x5d8a3953f56c3a8ff7ab454541fd3bc7b7b0bd08',
+
     // sqcr
     sqncr: '0x15BF3fF3D8a1d147372b9ec0A92878b11D31829E',
     defaultShell: '0x5fe2B6570Dd77692D0DA409D43Eff29c2c1414D0',
