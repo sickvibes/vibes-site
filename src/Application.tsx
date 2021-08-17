@@ -9,7 +9,7 @@ import { MintSQNCR } from './components/MintSQNCR';
 import { Page } from './components/Page';
 import { Profile } from './components/Profile';
 import { Protocol } from './components/Protocol';
-import { Infusion } from './components/Infusion';
+import { AdminInfusion } from './components/AdminInfusion';
 import { SQNCRDetail } from './components/SQNCRDetails';
 import { TokenDetail } from './components/TokenDetail';
 import { Wallet } from './components/Wallet';
@@ -58,8 +58,8 @@ export const Application: FunctionComponent = () => {
         <Route exact path="/tokens/:nft/:tokenId">
           <TokenDetail />
         </Route>
-        <Route exact path="/infuse">
-          <Infusion />
+        <Route exact path="/admin-infuse">
+          <AdminInfusion />
         </Route>
         <Route path="*">
           <Error404 />

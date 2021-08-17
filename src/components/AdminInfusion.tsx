@@ -17,7 +17,7 @@ import { TwoPanel } from './TwoPanel';
 import { useWallet } from '../hooks/wallet';
 import { approveInfinite, getAllowance } from '../web3/vibes';
 
-export const Infusion: FunctionComponent = () => {
+export const AdminInfusion: FunctionComponent = () => {
   const { account, library, registerTransactions, onTransactions } = useWallet();
   const [nft, setNft] = useState('');
   const [infuser, setInfuser] = useState('');
