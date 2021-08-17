@@ -1,8 +1,12 @@
 import memoize from 'lodash/memoize';
+import PQueue from 'p-queue';
+
+// help a lil bit with ipfs throttling
+const queue = new PQueue({ concurrency: 2 });
 
 export const fetchIpfsJson = memoize(
   async <T>(hash: string): Promise<T> => {
-    const resp = await fetch(`https://ipfs.io/ipfs/${hash}`);
+    const resp = await queue.add(() => fetch(`https://ipfs.io/ipfs/${hash}`));
     const json = await resp.json();
     return json;
   }
