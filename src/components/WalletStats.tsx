@@ -11,14 +11,19 @@ import { MarketPrice } from './MarketPrice';
 import { TwoPanel } from './TwoPanel';
 import { useTokens } from '../hooks/tokens';
 import { BigNumber } from '@ethersproject/bignumber';
+import { useProtocol } from '../hooks/protocol';
 
 export const WalletStats: FunctionComponent = () => {
   const { accountView, trackInMetamask, transactions } = useWallet();
+  const { protocolView } = useProtocol();
   const { tokens } = useTokens();
 
   const owned = tokens?.filter((t) => t.owner === accountView.address) ?? [];
   const claimable = owned.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
   const mining = owned.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
+
+  const allowance = protocolView.infusionPool.allowances.find((a) => a.address === accountView.address);
+  const allowanceAmount = allowance?.amount ?? BigNumber.from(0);
 
   return (
     <div>
@@ -50,6 +55,10 @@ export const WalletStats: FunctionComponent = () => {
               <br />
               🖼 <strong>owned VIBES NFTs</strong>: {owned.length}
               <br />
+              {/* 🔥 <strong>infusion grant</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes /> ($
+              <MarketPrice amount={allowanceAmount} price="vibesUsdcPrice" />
+              )
+              <br /> */}
               ⚡️ <strong>pending trx</strong>:{' '}
               {transactions.length === 0
                 ? '(none)'

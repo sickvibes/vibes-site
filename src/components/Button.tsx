@@ -43,6 +43,8 @@ export const Button: FunctionComponent<Props> = (props) => {
         window.open(externalNavTo, '_blank');
       };
     }
+  } else {
+    attr.onClick = () => null;
   }
 
   return (

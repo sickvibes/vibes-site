@@ -12,6 +12,7 @@ import { getContracts } from '../contracts';
 import { SQNCR } from './SQNCR';
 import { useWallet } from '../hooks/wallet';
 import { FlashingLabel } from './FlashingLabel';
+import { useProtocol } from '../hooks/protocol';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
@@ -60,12 +61,15 @@ export const NavBar: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
   const { activeSQNCR, walletPresent, accountView } = useWallet();
+  const { protocolView } = useProtocol();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const withClose = (fn: () => any) => () => {
     setOpen(false);
     fn();
   };
+
+  const isCurator = Boolean(protocolView?.infusionPool.allowances.find((a) => a.address === accountView?.address));
 
   return (
     <PageSection padding="0" className={classes.section}>
@@ -121,6 +125,13 @@ export const NavBar: FunctionComponent = () => {
               ⭐️ PROFILE
             </Button>
           </div>
+          {isCurator && (
+            <div>
+              <Button onClick={withClose(() => history.push('/curate'))} disabled={!walletPresent()}>
+                🔥 CURATE
+              </Button>
+            </div>
+          )}
           <div>* * *</div>
           <div>
             <Button externalNavTo="https://docs.sickvibes.xyz">📚 DOCS</Button>

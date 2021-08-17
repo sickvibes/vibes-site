@@ -163,7 +163,7 @@ export const getProtocolView = async (): Promise<ProtocolView> => {
       constraints: infusionPoolInfo.constraints,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       allowances: infusionPoolInfo.allowances.map((a: any) => {
-        return { curator: a.seeder, amount: a.amount };
+        return { address: a.seeder, amount: a.amount };
       }),
     },
     wellspringV2: {

@@ -44,7 +44,17 @@
   status = 200
 
 [[redirects]]
-  from = "/infuse"
+  from = "/admin-infuse"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/curate"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/curate/*"
   to = "/index.html"
   status = 200
 

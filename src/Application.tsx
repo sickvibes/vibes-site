@@ -13,6 +13,8 @@ import { AdminInfusion } from './components/AdminInfusion';
 import { SQNCRDetail } from './components/SQNCRDetails';
 import { TokenDetail } from './components/TokenDetail';
 import { Wallet } from './components/Wallet';
+import { Curate } from './components/Curate';
+import { InfuseNFTs } from './components/InfuseNFTs';
 
 export const Application: FunctionComponent = () => {
   return (
@@ -60,6 +62,12 @@ export const Application: FunctionComponent = () => {
         </Route>
         <Route exact path="/admin-infuse">
           <AdminInfusion />
+        </Route>
+        <Route exact path="/curate">
+          <Curate />
+        </Route>
+        <Route exact path="/curate/infuse">
+          <InfuseNFTs />
         </Route>
         <Route path="*">
           <Error404 />

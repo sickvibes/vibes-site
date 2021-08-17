@@ -114,7 +114,7 @@ export const TokenDetail: FunctionComponent = () => {
                     <br />
                   </>
                 )}
-                <strong>🔥 infused by:</strong>{' '}
+                <strong>🔥 curated by:</strong>{' '}
                 <Button navTo={`/profile/${tokenView.infuser}/infused`}>
                   <Address address={tokenView.infuser} />
                 </Button>
