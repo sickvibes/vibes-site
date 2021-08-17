@@ -214,6 +214,63 @@ export const Protocol: FunctionComponent = () => {
               </div>
             </TwoPanel>
           </div>
+
+          <div>
+            <Title>Infusion Pool</Title>
+            <TwoPanel>
+              <div>
+                <Stats>
+                  <strong>address</strong>:{' '}
+                  <Button externalNavTo={`https://polygonscan.com/address/${protocolView.infusionPool.address}`}>
+                    <Address address={protocolView.infusionPool.address} />
+                  </Button>
+                  <br />
+                  <strong>balance</strong>: <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} />{' '}
+                  <Vibes /> ($
+                  <MarketPrice amount={protocolView.infusionPool.balance} price="vibesUsdcPrice" />)
+                  <br />
+                  <strong>curators</strong>: {protocolView.infusionPool.allowances.length}
+                  <br />
+                  <strong>min rate</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minDailyRate} /> <Vibes />{' '}
+                  ($
+                  <MarketPrice amount={protocolView.infusionPool.constraints.minDailyRate} price="vibesUsdcPrice" />) /
+                  day
+                  <br />
+                  <strong>max rate</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxDailyRate} /> <Vibes />{' '}
+                  ($
+                  <MarketPrice amount={protocolView.infusionPool.constraints.maxDailyRate} price="vibesUsdcPrice" />) /
+                  day
+                  <br />
+                  <strong>min value</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minValue} /> <Vibes /> ($
+                  <MarketPrice amount={protocolView.infusionPool.constraints.minValue} price="vibesUsdcPrice" />)
+                  <br />
+                  <strong>max value</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxValue} /> <Vibes /> ($
+                  <MarketPrice amount={protocolView.infusionPool.constraints.maxValue} price="vibesUsdcPrice" />)
+                  <br />
+                  <strong>required owned NFT</strong>:{' '}
+                  {protocolView.infusionPool.constraints.requireOwnedNft ? 'YES' : 'NO'}
+                  <br />
+                  <strong>min grant</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minGrant} /> <Vibes /> ($
+                  <MarketPrice amount={protocolView.infusionPool.constraints.minGrant} price="vibesUsdcPrice" />)
+                  <br />
+                </Stats>
+              </div>
+              <div>
+                <Content>
+                  <p>The Infusion Pool holds provenance mining grant funds and manages curator allowances.</p>
+                  <p>
+                    It enforces the constraints around how <Vibes /> can be infused by curators.
+                  </p>
+                </Content>
+              </div>
+            </TwoPanel>
+          </div>
+
           <div>
             <Title>SQNCR</Title>
             <TwoPanel>

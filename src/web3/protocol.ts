@@ -8,6 +8,7 @@ import VPA from './abi/vote-power-adapater.json';
 import QUICKSWAP_PAIR from './abi/quickswap-pair.json';
 import SQNCR from './abi/sqncr.json';
 import WELLSPRING_V2 from './abi/wellspring-v2.json';
+import INFUSION_POOL from './abi/infusion-pool.json';
 
 export interface ProtocolView {
   vibesToken: {
@@ -22,6 +23,22 @@ export interface ProtocolView {
     address: string;
     tokenCount: number;
     reserveVibesBalance: BigNumber;
+  };
+  infusionPool: {
+    address: string;
+    balance: BigNumber;
+    allowances: Array<{
+      address: string;
+      amount: BigNumber;
+    }>;
+    constraints: {
+      minDailyRate: BigNumber;
+      maxDailyRate: BigNumber;
+      minValue: BigNumber;
+      maxValue: BigNumber;
+      requireOwnedNft: BigNumber;
+      minGrant: BigNumber;
+    };
   };
   wellspringV2: {
     address: string;
@@ -66,6 +83,7 @@ export const getProtocolView = async (): Promise<ProtocolView> => {
   const vibesMaticLp = new Contract(contracts.quickswapVibesMatic, QUICKSWAP_PAIR);
   const usdcMaticLp = new Contract(getContracts().quickswapUsdcMatic, QUICKSWAP_PAIR);
   const sqncr = new Contract(contracts.sqncr, SQNCR);
+  const infusionPool = new Contract(contracts.infusionPool, INFUSION_POOL);
 
   const calls = [
     vibes.totalSupply(),
@@ -90,6 +108,7 @@ export const getProtocolView = async (): Promise<ProtocolView> => {
 
     wellspringV2.allTokensCount(),
     vibes.balanceOf(contracts.wellspringV2),
+    infusionPool.getInfo(),
   ];
 
   const resp = await provider.all(calls);
@@ -115,6 +134,7 @@ export const getProtocolView = async (): Promise<ProtocolView> => {
 
     wellspringV2TokenCount,
     wellspringV2TVL,
+    infusionPoolInfo,
   ] = resp;
 
   const maticReserveUsdc = usdcMaticReserves._reserve0;
@@ -136,6 +156,15 @@ export const getProtocolView = async (): Promise<ProtocolView> => {
       address: contracts.wellspring,
       reserveVibesBalance: wellspringReserveBalance,
       tokenCount: wellspringTokenCount.toNumber(),
+    },
+    infusionPool: {
+      address: contracts.infusionPool,
+      balance: infusionPoolInfo.balance,
+      constraints: infusionPoolInfo.constraints,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      allowances: infusionPoolInfo.allowances.map((a: any) => {
+        return { curator: a.seeder, amount: a.amount };
+      }),
     },
     wellspringV2: {
       address: contracts.wellspringV2,
