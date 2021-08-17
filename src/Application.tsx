@@ -15,6 +15,7 @@ import { TokenDetail } from './components/TokenDetail';
 import { Wallet } from './components/Wallet';
 import { Curate } from './components/Curate';
 import { InfuseNFTs } from './components/InfuseNFTs';
+import { Curators } from './components/Curators';
 
 export const Application: FunctionComponent = () => {
   return (
@@ -68,6 +69,9 @@ export const Application: FunctionComponent = () => {
         </Route>
         <Route exact path="/curate/infuse">
           <InfuseNFTs />
+        </Route>
+        <Route exact path="/curate/curators">
+          <Curators />
         </Route>
         <Route path="*">
           <Error404 />

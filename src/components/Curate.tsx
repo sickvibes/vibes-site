@@ -99,6 +99,7 @@ const CurateContent: FunctionComponent = () => {
               </p>
               <ButtonGroup>
                 <Button navTo="/curate/grant">🎁 GRANT</Button>
+                <Button navTo="/curate/curators">👀 VIEW CURATORS</Button>
               </ButtonGroup>
             </Content>
           </div>
