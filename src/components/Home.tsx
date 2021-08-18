@@ -14,8 +14,6 @@ import { TokenGrid } from './TokenGrid';
 import { useTokens } from '../hooks/tokens';
 import { NftBag } from '../lib/nft';
 import { NFTView } from '../web3/wellspringv2';
-import { BigNumber } from 'ethers';
-import { formatUnits } from 'ethers/lib/utils';
 import shuffle from 'lodash/shuffle';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {

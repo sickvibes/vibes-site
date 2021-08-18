@@ -14,8 +14,7 @@ import { DecimalNumber } from './DecimalNumber';
 import { Vibes } from './Vibes';
 import { ButtonGroup } from './ButtonGroup';
 import { Button } from './Button';
-import { extractFlavorText, formatBytes } from '../lib/strings';
-import { MarketPrice } from './MarketPrice';
+import { extractFlavorText, formatBytes, prettyPrintDays } from '../lib/strings';
 import { Stats } from './Stats';
 import { Divider } from './Divder';
 import { useWallet } from '../hooks/wallet';
@@ -124,20 +123,24 @@ export const TokenDetail: FunctionComponent = () => {
                   <Address address={tokenView.owner} />
                 </Button>
                 <br />
+                <strong>✨ infused:</strong> <DecimalNumber number={tokenView.balance} decimals={0} /> <Vibes /> (
+                {prettyPrintDays(
+                  tokenView.balance
+                    .mul(60 * 60 * 24)
+                    .div(tokenView.dailyRate)
+                    .toNumber()
+                )}
+                )
+                <br />
                 <strong>😎 claimable:</strong>{' '}
                 <DecimalNumber
                   number={tokenView.claimable}
                   decimals={3}
                   interoplate={{ dailyRate: tokenView.dailyRate, sampledAt: tokenView.sampledAt }}
                 />{' '}
-                <Vibes /> ($
-                <MarketPrice amount={tokenView.claimable} price="vibesUsdcPrice" />)
+                <Vibes />
                 <br />
-                <strong>💎 mining:</strong> <DecimalNumber number={tokenView.dailyRate} decimals={0} /> <Vibes /> ($
-                <MarketPrice amount={tokenView.dailyRate} price="vibesUsdcPrice" decimals={2} />) / day
-                <br />
-                <strong>💰 value:</strong> <DecimalNumber number={tokenView.balance} decimals={0} /> <Vibes /> ($
-                <MarketPrice amount={tokenView.balance} price="vibesUsdcPrice" />)
+                <strong>💎 mining:</strong> <DecimalNumber number={tokenView.dailyRate} decimals={0} /> <Vibes /> / day
                 <br />
                 {metadata.media && (
                   <>

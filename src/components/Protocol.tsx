@@ -29,8 +29,6 @@ export const Protocol: FunctionComponent = () => {
     );
   }
 
-  const totalMined = tokens.reduce((acc, t) => acc.add(t.mined), BigNumber.from(0));
-  const totalClaimed = tokens.reduce((acc, t) => acc.add(t.claimed), BigNumber.from(0));
   const totalDailyRate = tokens.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
   const totalClaimable = tokens.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
 
@@ -66,8 +64,7 @@ export const Protocol: FunctionComponent = () => {
                     </Button>
                     <br />
                     <strong>supply</strong>: <DecimalNumber decimals={0} number={protocolView.vibesToken.totalSupply} />{' '}
-                    ($
-                    <MarketPrice amount={protocolView.vibesToken.totalSupply} price="vibesUsdcPrice" />)
+                    <Vibes />
                   </Stats>
                   <ButtonGroup>
                     <Button externalNavTo={`https://polygonscan.com/token/${protocolView.vibesToken.address}`}>
@@ -109,18 +106,14 @@ export const Protocol: FunctionComponent = () => {
                   <DecimalNumber number={protocolView.quickswap.maticUsdcPrice} decimals={2} /> USD
                   <br />
                   <strong>total liquidity</strong>:{' '}
-                  <DecimalNumber number={protocolView.quickswap.vibesMaticPool.totalSupply} decimals={0} /> LP ($
-                  <MarketPrice
-                    amount={protocolView.quickswap.vibesMaticPool.vibesReserve.mul(2)}
-                    price="vibesUsdcPrice"
-                  />
-                  )
+                  <DecimalNumber number={protocolView.quickswap.vibesMaticPool.totalSupply} decimals={0} /> LP
                   <br />
                   <strong>&nbsp;- VIBES</strong>:{' '}
                   <DecimalNumber number={protocolView.quickswap.vibesMaticPool.vibesReserve} decimals={0} />
                   <br />
                   <strong>&nbsp;- MATIC</strong>:{' '}
-                  <DecimalNumber number={protocolView.quickswap.vibesMaticPool.maticReserve} decimals={0} />
+                  <DecimalNumber number={protocolView.quickswap.vibesMaticPool.maticReserve} decimals={0} /> ($
+                  <MarketPrice amount={protocolView.quickswap.vibesMaticPool.maticReserve} price="maticUsdcPrice" />)
                 </Stats>
               </div>
               <div>
@@ -155,9 +148,8 @@ export const Protocol: FunctionComponent = () => {
                     <Address address={protocolView.wellspring.address} />
                   </Button>
                   <br />
-                  <strong>TVL</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.wellspring.reserveVibesBalance} /> <Vibes /> ($
-                  <MarketPrice amount={protocolView.wellspring.reserveVibesBalance} price="vibesUsdcPrice" />)
+                  <strong>balance</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.wellspring.reserveVibesBalance} /> <Vibes />
                 </Stats>
               </div>
               <div>
@@ -184,23 +176,14 @@ export const Protocol: FunctionComponent = () => {
                     <Address address={protocolView.wellspringV2.address} />
                   </Button>
                   <br />
-                  <strong>TVL</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.wellspringV2.totalVibesLocked} /> <Vibes /> ($
-                  <MarketPrice amount={protocolView.wellspringV2.totalVibesLocked} price="vibesUsdcPrice" />)
+                  <strong>balance</strong>:{' '}
+                  <DecimalNumber decimals={0} number={protocolView.wellspringV2.totalVibesLocked} /> <Vibes />
+                  <br />
+                  <strong>claimable</strong>: <DecimalNumber decimals={0} number={totalClaimable} /> <Vibes />
+                  <br />
+                  <strong>mining</strong>: <DecimalNumber decimals={0} number={totalDailyRate} /> <Vibes /> / day
                   <br />
                   <strong>managed tokens</strong>: {protocolView.wellspringV2.tokenCount}
-                  <br />
-                  <strong>mining</strong>: <DecimalNumber decimals={0} number={totalDailyRate} /> <Vibes /> ($
-                  <MarketPrice amount={totalDailyRate} price="vibesUsdcPrice" />) / day
-                  <br />
-                  <strong>mined</strong>: <DecimalNumber decimals={0} number={totalMined} /> <Vibes /> ($
-                  <MarketPrice amount={totalMined} price="vibesUsdcPrice" />)
-                  <br />
-                  <strong>claimable</strong>: <DecimalNumber decimals={0} number={totalClaimable} /> <Vibes /> ($
-                  <MarketPrice amount={totalClaimable} price="vibesUsdcPrice" />)
-                  <br />
-                  <strong>claimed</strong>: <DecimalNumber decimals={0} number={totalClaimed} /> <Vibes /> ($
-                  <MarketPrice amount={totalClaimed} price="vibesUsdcPrice" />)
                 </Stats>
               </div>
               <div>
@@ -226,37 +209,29 @@ export const Protocol: FunctionComponent = () => {
                   </Button>
                   <br />
                   <strong>balance</strong>: <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} />{' '}
-                  <Vibes /> ($
-                  <MarketPrice amount={protocolView.infusionPool.balance} price="vibesUsdcPrice" />)
-                  <br />
-                  <strong>curators</strong>: {protocolView.infusionPool.allowances.length}
+                  <Vibes />
                   <br />
                   <strong>min rate</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minDailyRate} /> <Vibes />{' '}
-                  ($
-                  <MarketPrice amount={protocolView.infusionPool.constraints.minDailyRate} price="vibesUsdcPrice" />) /
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minDailyRate} /> <Vibes /> /
                   day
                   <br />
                   <strong>max rate</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxDailyRate} /> <Vibes />{' '}
-                  ($
-                  <MarketPrice amount={protocolView.infusionPool.constraints.maxDailyRate} price="vibesUsdcPrice" />) /
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxDailyRate} /> <Vibes /> /
                   day
                   <br />
                   <strong>min value</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minValue} /> <Vibes /> ($
-                  <MarketPrice amount={protocolView.infusionPool.constraints.minValue} price="vibesUsdcPrice" />)
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minValue} /> <Vibes />
                   <br />
                   <strong>max value</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxValue} /> <Vibes /> ($
-                  <MarketPrice amount={protocolView.infusionPool.constraints.maxValue} price="vibesUsdcPrice" />)
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.maxValue} /> <Vibes />
                   <br />
                   <strong>required owned NFT</strong>:{' '}
                   {protocolView.infusionPool.constraints.requireOwnedNft ? 'YES' : 'NO'}
                   <br />
                   <strong>min grant</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minGrant} /> <Vibes /> ($
-                  <MarketPrice amount={protocolView.infusionPool.constraints.minGrant} price="vibesUsdcPrice" />)
+                  <DecimalNumber decimals={0} number={protocolView.infusionPool.constraints.minGrant} /> <Vibes />
+                  <br />
+                  <strong>curators</strong>: {protocolView.infusionPool.allowances.length}
                   <br />
                 </Stats>
               </div>
@@ -266,6 +241,9 @@ export const Protocol: FunctionComponent = () => {
                   <p>
                     It enforces the constraints around how <Vibes /> can be infused by curators.
                   </p>
+                  <ButtonGroup>
+                    <Button navTo="/curate/curators">👀 VIEW CURATORS</Button>
+                  </ButtonGroup>
                 </Content>
               </div>
             </TwoPanel>
@@ -282,13 +260,12 @@ export const Protocol: FunctionComponent = () => {
                       <Address address={protocolView.sqncr.address} />
                     </Button>
                     <br />
-                    <strong>mint cost</strong>: <DecimalNumber decimals={0} number={protocolView.sqncr.mintCost} />{' '}
-                    <Vibes /> ($
-                    <MarketPrice amount={protocolView.sqncr.mintCost} price="vibesUsdcPrice" />)
-                    <br />
                     <strong>total minted</strong>: {protocolView.sqncr.totalMinted}
                     <br />
                     <strong>max mints per address</strong>: {protocolView.sqncr.maxMints}
+                    <br />
+                    <strong>mint cost</strong>: <DecimalNumber decimals={0} number={protocolView.sqncr.mintCost} />{' '}
+                    <Vibes />
                   </p>
                   <ButtonGroup>
                     <Button
@@ -323,13 +300,11 @@ export const Protocol: FunctionComponent = () => {
                     <Address address={protocolView.gnosisSafe.address} />
                   </Button>
                   <br />
-                  <strong>VIBES balance</strong>
-                  : <DecimalNumber decimals={0} number={protocolView.gnosisSafe.vibesBalance} /> ($
-                  <MarketPrice amount={protocolView.gnosisSafe.vibesBalance} price="vibesUsdcPrice" />)
+                  <strong>balance</strong>
+                  : <DecimalNumber decimals={0} number={protocolView.gnosisSafe.vibesBalance} /> <Vibes />
                   <br />
                   <strong>LP balance</strong>:{' '}
-                  <DecimalNumber decimals={0} number={protocolView.gnosisSafe.vibesMaticLpBalance} /> LP ($
-                  <MarketPrice amount={protocolView.gnosisSafe.vibesMaticLpBalance} price="vibesMaticLpUsdcPrice" />)
+                  <DecimalNumber decimals={0} number={protocolView.gnosisSafe.vibesMaticLpBalance} /> LP
                 </Stats>
               </div>
               <div>

@@ -7,7 +7,6 @@ import { ButtonGroup } from './ButtonGroup';
 import { Connect } from './Connect';
 import { Content } from './Content';
 import { DecimalNumber } from './DecimalNumber';
-import { MarketPrice } from './MarketPrice';
 import { PageSection } from './PageSection';
 import { Stats } from './Stats';
 import { Title } from './Title';
@@ -71,12 +70,9 @@ const CurateContent: FunctionComponent = () => {
         <p>🧪 How you integrate this into your story as an artist or collector is entirely up to you.</p>
         <Stats>
           <strong>🏊‍♀️ remaining grant pool</strong>:{' '}
-          <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} /> <Vibes /> ($
-          <MarketPrice amount={protocolView.infusionPool.balance} price="vibesUsdcPrice" />)
+          <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} /> <Vibes />
           <br />
-          🔥 <strong>your grant allowance</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes /> ($
-          <MarketPrice amount={allowanceAmount} price="vibesUsdcPrice" />
-          )
+          🔥 <strong>your grant allowance</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes />
           <br />
         </Stats>
         <ButtonGroup>

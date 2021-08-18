@@ -48,3 +48,15 @@ export const parseBase64MetadataUri = (uri: string): Metadata => {
   const payload = JSON.parse(atob(encoded));
   return { ...payload, attributes: payload.attribues ?? [] };
 };
+
+export const prettyPrintDays = (seconds: number): string => {
+  const days = Math.floor(seconds / 60 / 60 / 24);
+
+  if (days === 0) {
+    return '< 1 day';
+  } else if (days === 1) {
+    return '1 day';
+  }
+
+  return `${days} days`;
+};

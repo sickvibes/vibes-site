@@ -32,33 +32,32 @@ export const WalletStats: FunctionComponent = () => {
         <div>
           <Stats>
             <p>
-              🏦 <strong>balance</strong>: <DecimalNumber number={accountView.vibesBalance} decimals={0} /> <Vibes /> ($
-              <MarketPrice amount={accountView.vibesBalance} price="vibesUsdcPrice" />)
+              🏦 <strong>balance</strong>: <DecimalNumber number={accountView.vibesBalance} decimals={0} /> <Vibes />
               <br />
-              🤑 <strong>claimable</strong>: <DecimalNumber number={claimable} decimals={0} /> <Vibes /> ($
-              <MarketPrice amount={claimable} price="vibesUsdcPrice" />)
+              🤑 <strong>claimable</strong>: <DecimalNumber number={claimable} decimals={0} /> <Vibes />
               <br />
-              💎 <strong>mining</strong>: <DecimalNumber number={mining} decimals={0} /> <Vibes /> ($
-              <MarketPrice amount={mining} price="vibesUsdcPrice" />) / day
+              💎 <strong>mining</strong>: <DecimalNumber number={mining} decimals={0} /> <Vibes />
               <br />
               🏛 <strong>voter power</strong>: <DecimalNumber number={accountView.votePower} decimals={0} />
               <br />
               💰 <strong>your liquidity</strong>:{' '}
-              <DecimalNumber number={accountView.vibesMaticLpBalance} decimals={0} /> LP ($
-              <MarketPrice amount={accountView.vibesMaticLpBalance} price="vibesMaticLpUsdcPrice" />)
+              <DecimalNumber number={accountView.vibesMaticLpBalance} decimals={0} /> LP
               <br />
-              <strong>&nbsp;&nbsp;&nbsp;- VIBES</strong>:{' '}
-              <DecimalNumber number={accountView.lpUnderlyingVibes} decimals={0} />
-              <br />
-              <strong>&nbsp;&nbsp;&nbsp;- MATIC</strong>:{' '}
-              <DecimalNumber number={accountView.lpUnderlyingMatic} decimals={0} />
-              <br />
+              {accountView.vibesMaticLpBalance.gt(0) && (
+                <>
+                  <strong>&nbsp;&nbsp;&nbsp;- VIBES</strong>:{' '}
+                  <DecimalNumber number={accountView.lpUnderlyingVibes} decimals={0} />
+                  <br />
+                  <strong>&nbsp;&nbsp;&nbsp;- MATIC</strong>:{' '}
+                  <DecimalNumber number={accountView.lpUnderlyingMatic} decimals={0} /> ($
+                  <MarketPrice amount={accountView.lpUnderlyingMatic} price="maticUsdcPrice" />)
+                  <br />
+                </>
+              )}
               🖼 <strong>owned VIBES NFTs</strong>: {owned.length}
               <br />
-              {/* 🔥 <strong>infusion grant</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes /> ($
-              <MarketPrice amount={allowanceAmount} price="vibesUsdcPrice" />
-              )
-              <br /> */}
+              🔥 <strong>infusion grant</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes />
+              <br />
               ⚡️ <strong>pending trx</strong>:{' '}
               {transactions.length === 0
                 ? '(none)'

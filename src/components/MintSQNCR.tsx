@@ -12,7 +12,6 @@ import { Vibes } from './Vibes';
 import { TwoPanel } from './TwoPanel';
 import { useProtocol } from '../hooks/protocol';
 import { DecimalNumber } from './DecimalNumber';
-import { MarketPrice } from './MarketPrice';
 
 export const MintSQNCR: FunctionComponent = () => {
   const { accountView, library, registerTransactions } = useWallet();
@@ -79,8 +78,7 @@ export const MintSQNCR: FunctionComponent = () => {
                       <strong>minted by you</strong>: {accountView.sqncrs.length} / {protocolView.sqncr.maxMints}
                       <br />
                       <strong>mint cost</strong>: <DecimalNumber decimals={0} number={protocolView.sqncr.mintCost} />{' '}
-                      <Vibes /> ($
-                      <MarketPrice amount={protocolView.sqncr.mintCost} price="vibesUsdcPrice" />)
+                      <Vibes />
                     </p>
                     <ButtonGroup>
                       <Button navTo="/wallet">🎛 VIEW your SQNCRs</Button>

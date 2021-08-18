@@ -113,8 +113,8 @@ export const GrantContent: FunctionComponent = () => {
             <strong>
               <Address address={address} />
             </strong>
-            . This will allow them to influence direction of the <Vibes /> art collection by giving them the ability to
-            curate NFTs or onboard more curators.
+            . This will allow them to influence the direction of the <Vibes /> art collection by giving them the ability
+            to curate NFTs or onboard more curators.
           </p>
         )}
         <ButtonGroup>
