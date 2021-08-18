@@ -68,7 +68,7 @@ const CurateContent: FunctionComponent = () => {
           🌈 You are a <Vibes /> curator. This allows you to influence the <Vibes /> art collection by adding new NFTs
           to the network or granting others the ability to curate.
         </p>
-        <p>🧪 How you integrate this into your story as an artist or collector is entirely up to you:</p>
+        <p>🧪 How you integrate this into your story as an artist or collector is entirely up to you.</p>
         <Stats>
           <strong>🏊‍♀️ remaining grant pool</strong>:{' '}
           <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} /> <Vibes /> ($
@@ -79,6 +79,9 @@ const CurateContent: FunctionComponent = () => {
           )
           <br />
         </Stats>
+        <ButtonGroup>
+          <Button navTo="/curate/curators">👀 VIEW CURATORS</Button>
+        </ButtonGroup>
         <TwoPanel>
           <div>
             <Title>Infuse NFTs</Title>
@@ -99,7 +102,6 @@ const CurateContent: FunctionComponent = () => {
               </p>
               <ButtonGroup>
                 <Button navTo="/curate/grant">🎁 GRANT</Button>
-                <Button navTo="/curate/curators">👀 VIEW CURATORS</Button>
               </ButtonGroup>
             </Content>
           </div>

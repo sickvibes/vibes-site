@@ -13,3 +13,9 @@ export const infuseNft = async (
   const trx = await pool.seed(nft, tokenId, dailyRate, totalDays);
   return trx;
 };
+
+export const grant = async (infuser: string, amount: BigNumber, signer: Signer): Promise<ContractTransaction> => {
+  const pool = new Contract(getContracts().infusionPool, INFUSION_POOL, signer);
+  const trx = await pool.grant(infuser, amount);
+  return trx;
+};
