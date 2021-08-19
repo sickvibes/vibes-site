@@ -29,24 +29,137 @@ export const Protocol: FunctionComponent = () => {
     );
   }
 
-  const totalDailyRate = tokens.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
-  const totalClaimable = tokens.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
+  const legacyTokens = tokens.filter((t) => t.isLegacyToken);
+  const v2Tokens = tokens.filter((t) => !t.isLegacyToken);
+
+  const totalDailyRate = v2Tokens.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
+  const totalClaimable = v2Tokens.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
+  const totalClaimed = v2Tokens.reduce((acc, t) => acc.add(t.claimed), BigNumber.from(0));
+
+  const legacyDailyRate = legacyTokens.reduce((acc, t) => acc.add(t.dailyRate), BigNumber.from(0));
+  const legacyClaimable = legacyTokens.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
+  const legacyClaimed = legacyTokens.reduce((acc, t) => acc.add(t.claimed), BigNumber.from(0));
 
   return (
     <>
       <PageSection>
         <Content>
-          <Title>VIBES Protocol</Title>
+          <Title>VIBES Protocol Overview</Title>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>🤑 circulating supply</strong>:{' '}
+                <DecimalNumber
+                  number={protocolView.vibesToken.totalSupply.sub(protocolView.gnosisSafe.vibesBalance)}
+                  decimals={0}
+                />{' '}
+                <Vibes />
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  Total circulating supply includes all <Vibes /> "in the wild". This includes wallets, market
+                  liquidity, the <Vibes /> Wellspring, and grant pool contracts.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>✨ total infused</strong>:{' '}
+                <DecimalNumber
+                  number={protocolView.wellspring.reserveVibesBalance.add(protocolView.wellspringV2.totalVibesLocked)}
+                  decimals={0}
+                />{' '}
+                <Vibes />
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  The total amount of <Vibes /> infused across all NFTs. This will decrease as collectors claim the
+                  infused <Vibes /> to their wallets and increase as new pieces are infused.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>😎 total claimable</strong>:{' '}
+                <DecimalNumber number={totalClaimable.add(legacyClaimable)} decimals={0} /> <Vibes />
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  Infused <Vibes /> that have been mined and are claimable by collectors. This will increase as more{' '}
+                  <Vibes /> are mined, and decrease as collectors claim mined tokens.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>💎 total mining</strong>:{' '}
+                <DecimalNumber number={totalDailyRate.add(legacyDailyRate)} decimals={0} /> <Vibes /> / day
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  The total active mining rate across all <Vibes /> NFTs that have infused tokens. This will decrease as
+                  NFTs fully mine their infused <Vibes /> and increase as new pieces are infused.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>🎁 grant pool balance</strong>:{' '}
+                <DecimalNumber number={protocolView.infusionPool.balance} decimals={0} /> <Vibes />
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  The grant pool is used by curators to infuse NFTs with <Vibes /> from Provenance Mining Grants. When
+                  this runs out, the community must pass a proposal to fund another grant, or infusions can only be done
+                  with <Vibes /> from the curator's wallet.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>🔥 total claimed</strong>:{' '}
+                <DecimalNumber number={totalClaimed.add(legacyClaimed)} decimals={0} /> <Vibes />
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  The total <Vibes /> claimed from infused NFTs. This will increase as collectors claim more <Vibes />{' '}
+                  from their owned NFTs.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
+
+          <Title>VIBES Smart Contracts</Title>
           <p>
             The <Vibes /> protocol is made up of a cluster smart contracts. Information about the parameters, roles, and
             addresses of the main contracts are listed here.
           </p>
           <p>
             For more information, check out the{' '}
-            <Button externalNavTo="https://docs.sickvibes.xyz/resources/architecture">
-              Architecture Documentation
-            </Button>{' '}
-            on the <Vibes /> documentation site.
+            <Button externalNavTo="https://docs.sickvibes.xyz/resources/architecture">Architecture</Button> info on the{' '}
+            <Vibes /> documentation site.
           </p>
         </Content>
       </PageSection>
@@ -150,6 +263,14 @@ export const Protocol: FunctionComponent = () => {
                   <br />
                   <strong>balance</strong>:{' '}
                   <DecimalNumber decimals={0} number={protocolView.wellspring.reserveVibesBalance} /> <Vibes />
+                  <br />
+                  <strong>claimed</strong>: <DecimalNumber decimals={0} number={legacyClaimed} /> <Vibes />
+                  <br />
+                  <strong>claimable</strong>: <DecimalNumber decimals={0} number={legacyClaimable} /> <Vibes />
+                  <br />
+                  <strong>mining</strong>: <DecimalNumber decimals={0} number={legacyDailyRate} /> <Vibes /> / day
+                  <br />
+                  <strong>managed tokens</strong>: {protocolView.wellspring.tokenCount}
                 </Stats>
               </div>
               <div>
@@ -179,11 +300,14 @@ export const Protocol: FunctionComponent = () => {
                   <strong>balance</strong>:{' '}
                   <DecimalNumber decimals={0} number={protocolView.wellspringV2.totalVibesLocked} /> <Vibes />
                   <br />
+                  <strong>claimed</strong>: <DecimalNumber decimals={0} number={totalClaimed} /> <Vibes />
+                  <br />
                   <strong>claimable</strong>: <DecimalNumber decimals={0} number={totalClaimable} /> <Vibes />
                   <br />
                   <strong>mining</strong>: <DecimalNumber decimals={0} number={totalDailyRate} /> <Vibes /> / day
                   <br />
-                  <strong>managed tokens</strong>: {protocolView.wellspringV2.tokenCount}
+                  <strong>managed tokens</strong>:{' '}
+                  {protocolView.wellspringV2.tokenCount - protocolView.wellspring.tokenCount}
                 </Stats>
               </div>
               <div>

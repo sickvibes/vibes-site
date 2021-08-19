@@ -31,7 +31,6 @@ export interface NFTView {
 
   sampledAt: number;
   claimed: BigNumber;
-  mined: BigNumber;
 }
 
 export const nftViewId = (view: Token): string => `${view.nft}:${view.tokenId}`;
@@ -46,11 +45,10 @@ export const getNFTDetails = async (tokens: Token[]): Promise<(NFTView | null)[]
   const projected = views.map<NFTView | null>((v) => {
     if (!v.isValidToken) return null;
 
-    const mined = BigNumber.from(now)
+    const claimed = v.lastClaimAt
       .sub(v.seededAt)
       .mul(v.dailyRate)
       .div(60 * 60 * 24);
-    const claimed = mined.sub(v.claimable);
 
     return {
       nft: v.nft,
@@ -63,7 +61,7 @@ export const getNFTDetails = async (tokens: Token[]): Promise<(NFTView | null)[]
       infuser: v.seeder,
       operator: v.operator,
       infusedAt: v.seededAt.toNumber(),
-      dailyRate: v.dailyRate,
+      dailyRate: v.balance.eq(0) ? BigNumber.from(0) : v.dailyRate,
       isLegacyToken: v.isLegacyToken,
       balance: v.balance,
       lastClaimAt: v.lastClaimAt.toNumber(),
@@ -72,7 +70,6 @@ export const getNFTDetails = async (tokens: Token[]): Promise<(NFTView | null)[]
       isInfused: v.isSeeded,
 
       sampledAt: now,
-      mined,
       claimed,
     };
   });
