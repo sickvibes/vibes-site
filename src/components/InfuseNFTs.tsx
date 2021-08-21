@@ -10,7 +10,7 @@ import { Metadata, resolveMetadata } from '../lib/nft';
 import { formatBytes } from '../lib/strings';
 import { getNFTDetails, NFTView } from '../web3/wellspringv2';
 import { infuseNft } from '../web3/infusion-pool';
-import { ExplorerButton } from './Address';
+import { Address, ExplorerButton } from './Address';
 import { Button } from './Button';
 import { ButtonGroup } from './ButtonGroup';
 import { Connect } from './Connect';
@@ -159,8 +159,7 @@ const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => un
   const { constraints } = protocolView.infusionPool;
   const ownedFlagOkay = Boolean(!constraints.requireOwnedNft || nftView?.owner === account);
   const alreadySeeded = Boolean(tokens.find((t) => t.isInfused && t.nft === nft && t.tokenId === tokenId));
-  const ready = nftView && metadata;
-  const allowInfuse = ownedFlagOkay && ready && !alreadySeeded;
+  const allowInfuse = ownedFlagOkay && !alreadySeeded;
 
   if (trx) {
     return (
@@ -197,11 +196,19 @@ const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => un
           </div>
           <div>
             <Content>
-              {ready ? (
-                <>
-                  <p>
+              <p>
+                <strong>contract</strong>: <Address address={nft} />
+                <br />
+                <strong>token id</strong>: {tokenId}
+                <br />
+                {nftView && (
+                  <>
                     <strong>nft owner</strong>: <ExplorerButton address={nftView.owner} />
                     <br />
+                  </>
+                )}
+                {metadata && (
+                  <>
                     <strong>nft creator</strong>:{' '}
                     {metadata.creator ? <ExplorerButton address={metadata.creator} /> : '-'}
                     <br />
@@ -211,16 +218,15 @@ const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => un
                     <br />
                     <strong>nft media size</strong>: {formatBytes(metadata.media?.size)}
                     <br />
-                  </p>
-                  <ButtonGroup>
-                    <Button externalNavTo={`https://opensea.io/assets/matic/${nft}/${props.tokenId}`}>
-                      view on opensea
-                    </Button>
-                  </ButtonGroup>
-                </>
-              ) : (
-                <p style={{ textAlign: 'center' }}>⌛️ LOADING</p>
-              )}
+                  </>
+                )}
+                {!metadata && <>( ⌛️ loading metadata... )</>}
+              </p>
+              <ButtonGroup>
+                <Button externalNavTo={`https://opensea.io/assets/matic/${nft}/${props.tokenId}`}>
+                  view on opensea
+                </Button>
+              </ButtonGroup>
             </Content>
           </div>
         </TwoPanel>
@@ -238,7 +244,7 @@ const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => un
               </p>
             </>
           )}
-          {ready && !ownedFlagOkay && <p>⚠️ You can only infuse NFTs that you currently own.</p>}
+          {nftView && !ownedFlagOkay && <p>⚠️ You can only infuse NFTs that you currently own.</p>}
           {alreadySeeded && <p>⚠️ This NFT has already been infused.</p>}
         </Content>
       </PageSection>
