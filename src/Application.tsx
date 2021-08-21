@@ -17,6 +17,7 @@ import { Curate } from './components/Curate';
 import { InfuseNFTs } from './components/InfuseNFTs';
 import { Curators } from './components/Curators';
 import { GrantAllowance } from './components/GrantAllowance';
+import { Cashgrabbaz } from './components/features/Cashgrabbaz';
 
 export const Application: FunctionComponent = () => {
   return (
@@ -76,6 +77,9 @@ export const Application: FunctionComponent = () => {
         </Route>
         <Route exact path="/curate/grant">
           <GrantAllowance />
+        </Route>
+        <Route exact path="/voidkross/cashgrabbaz">
+          <Cashgrabbaz />
         </Route>
         <Route path="*">
           <Error404 />

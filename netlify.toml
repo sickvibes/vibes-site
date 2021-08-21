@@ -59,6 +59,11 @@
   status = 200
 
 [[redirects]]
+  from = "/voidkross/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "*"
   to = "/index.html"
   status = 404
