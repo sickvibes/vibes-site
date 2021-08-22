@@ -40,8 +40,6 @@ export const useTokensImplementation = () => {
 
   useEffect(() => {
     fetchTokens();
-    const h = setInterval(fetchTokens, 1000 * 60);
-    return () => clearInterval(h);
   }, []);
 
   const getMetadata = useCallback(
