@@ -18,73 +18,76 @@ import { InfuseNFTs } from './components/InfuseNFTs';
 import { Curators } from './components/Curators';
 import { GrantAllowance } from './components/GrantAllowance';
 import { Cashgrabbaz } from './components/features/Cashgrabbaz';
+import { LoadGate } from './components/LoadGate';
 
 export const Application: FunctionComponent = () => {
   return (
     <Page>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/wallet">
-          <Wallet />
-        </Route>
-        <Route exact path="/sqncr">
-          <ManageSQNCRs />
-        </Route>
-        <Route path="/sqncr/mint">
-          <MintSQNCR />
-        </Route>
-        <Route path="/sqncr/:tokenId">
-          <SQNCRDetail />
-        </Route>
-        <Route exact path="/protocol">
-          <Protocol />
-        </Route>
-        <Route exact path="/tokens">
-          <Browse />
-        </Route>
-        <Route
-          exact
-          path="/tokens/:tokenId"
-          render={(props) => (
-            <Redirect to={`/tokens/0x486ca491C9A0a9ACE266AA100976bfefC57A0Dd4/${props.match.params.tokenId}`} />
-          )}
-        />
-        <Route
-          exact
-          path="/profile/:address"
-          render={(props) => <Redirect to={`/profile/${props.match.params.address}/owned`} />}
-        />
-        <Route path="/profile/:address/:section" component={Profile} />
-        <Route exact path="/tokens/:nft/:tokenId/claim">
-          <Claim />
-        </Route>
-        <Route exact path="/tokens/:nft/:tokenId">
-          <TokenDetail />
-        </Route>
-        <Route exact path="/admin-infuse">
-          <AdminInfusion />
-        </Route>
-        <Route exact path="/curate">
-          <Curate />
-        </Route>
-        <Route exact path="/curate/infuse">
-          <InfuseNFTs />
-        </Route>
-        <Route exact path="/curate/curators">
-          <Curators />
-        </Route>
-        <Route exact path="/curate/grant">
-          <GrantAllowance />
-        </Route>
-        <Route exact path="/voidkross/cashgrabbaz">
-          <Cashgrabbaz />
-        </Route>
-        <Route path="*">
-          <Error404 />
-        </Route>
-      </Switch>
+      <LoadGate>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/wallet">
+            <Wallet />
+          </Route>
+          <Route exact path="/sqncr">
+            <ManageSQNCRs />
+          </Route>
+          <Route path="/sqncr/mint">
+            <MintSQNCR />
+          </Route>
+          <Route path="/sqncr/:tokenId">
+            <SQNCRDetail />
+          </Route>
+          <Route exact path="/protocol">
+            <Protocol />
+          </Route>
+          <Route exact path="/tokens">
+            <Browse />
+          </Route>
+          <Route
+            exact
+            path="/tokens/:tokenId"
+            render={(props) => (
+              <Redirect to={`/tokens/0x486ca491C9A0a9ACE266AA100976bfefC57A0Dd4/${props.match.params.tokenId}`} />
+            )}
+          />
+          <Route
+            exact
+            path="/profile/:address"
+            render={(props) => <Redirect to={`/profile/${props.match.params.address}/owned`} />}
+          />
+          <Route path="/profile/:address/:section" component={Profile} />
+          <Route exact path="/tokens/:nft/:tokenId/claim">
+            <Claim />
+          </Route>
+          <Route exact path="/tokens/:nft/:tokenId">
+            <TokenDetail />
+          </Route>
+          <Route exact path="/admin-infuse">
+            <AdminInfusion />
+          </Route>
+          <Route exact path="/curate">
+            <Curate />
+          </Route>
+          <Route exact path="/curate/infuse">
+            <InfuseNFTs />
+          </Route>
+          <Route exact path="/curate/curators">
+            <Curators />
+          </Route>
+          <Route exact path="/curate/grant">
+            <GrantAllowance />
+          </Route>
+          <Route exact path="/voidkross/cashgrabbaz">
+            <Cashgrabbaz />
+          </Route>
+          <Route path="*">
+            <Error404 />
+          </Route>
+        </Switch>
+      </LoadGate>
     </Page>
   );
 };
