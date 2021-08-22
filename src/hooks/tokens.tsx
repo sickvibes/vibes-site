@@ -1,6 +1,6 @@
 import React, { createContext, FunctionComponent, useCallback, useContext, useEffect, useState } from 'react';
 import { getContracts } from '../contracts';
-import { Metadata, resolveMetadata } from '../lib/nft';
+import { Metadata } from '../lib/nft';
 import { getRecentTokens, NFTView, nftViewId } from '../web3/wellspringv2';
 import { batchGetAuctionInfo, TokenSale } from '../web3/ssw';
 import { getAllTokens } from '../lib/vibes-api';
