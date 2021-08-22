@@ -3,6 +3,7 @@ import { getContracts } from '../contracts';
 import { Metadata, resolveMetadata } from '../lib/nft';
 import { getRecentTokens, NFTView, nftViewId } from '../web3/wellspringv2';
 import { batchGetAuctionInfo, TokenSale } from '../web3/ssw';
+import { getAllTokens } from '../lib/vibes-api';
 
 /**
  * Global info about the protocol
@@ -12,18 +13,28 @@ export const useTokensImplementation = () => {
   const [tokens, setTokens] = useState<NFTView[] | null>(null);
   const [metadata, setMetadata] = useState<Record<string, Metadata>>({});
   const [saleInfo, setSaleInfo] = useState<Record<string, TokenSale>>({});
-  const [status, setStatus] = useState<'loading' | 'ready'>('loading');
+  const [status, setStatus] = useState<string | 'ready'>('loading');
 
   const fetchTokens = async () => {
-    const tokens = await getRecentTokens({ limit: 200 });
+    setStatus('fetching tokens');
+    const tokens = await getRecentTokens({ limit: 500 });
     const sswTokens = tokens.filter((t) => t.nft === getContracts().ssw);
     setTokens(tokens);
+
+    setStatus('fetching sale information');
     const info = await batchGetAuctionInfo(sswTokens.map((t) => t.tokenId));
     const saleInfo: Record<string, TokenSale> = {};
     for (const sale of info) {
       saleInfo[nftViewId(sale)] = sale;
     }
     setSaleInfo(saleInfo);
+
+    setStatus('fetching cached metadata');
+    const resp = await getAllTokens();
+    const metadata: Record<string, Metadata> = {};
+    resp.forEach((t) => (metadata[nftViewId(t)] = t.metadata));
+    setMetadata(metadata);
+
     setStatus('ready');
   };
 
@@ -33,22 +44,9 @@ export const useTokensImplementation = () => {
     return () => clearInterval(h);
   }, []);
 
-  const fetchMetadata = async (token: NFTView) => {
-    const resolved = await resolveMetadata(token);
-    setMetadata((prev) => {
-      const key = nftViewId(token);
-      if (prev[key]) return prev; // optimization -- dont set state if we've already got metadata
-      return {
-        ...prev,
-        [key]: resolved,
-      };
-    });
-  };
-
   const getMetadata = useCallback(
     (token: NFTView): Metadata | undefined => {
       const data = metadata[nftViewId(token)];
-      if (data === undefined) fetchMetadata(token);
       return data;
     },
     [metadata]
