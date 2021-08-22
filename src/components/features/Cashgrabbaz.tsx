@@ -13,16 +13,6 @@ const DEM_GRABBAZ = ['4260', '4261', '4262', '4263', '4264', '4265', '4266', '42
 export const Cashgrabbaz: FunctionComponent = () => {
   const { tokens } = useTokens();
 
-  if (tokens == null) {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING TOKENS</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   const grabbaz = tokens.filter((t) => t.nft === getContracts().ssw && DEM_GRABBAZ.includes(t.tokenId));
 
   return (

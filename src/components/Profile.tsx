@@ -39,16 +39,6 @@ export const Profile: FunctionComponent<RouteComponentProps> = (props) => {
   const { tokens, getMetadata } = useTokens();
   const classes = useStyles(props);
 
-  if (tokens == null) {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING TOKENS</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   const owned = tokens?.filter((t) => t.owner === address) ?? [];
   const infused = tokens?.filter((t) => t.infuser === address) ?? [];
   const created = tokens?.filter((t) => getMetadata(t)?.creator === address) ?? [];

@@ -9,16 +9,6 @@ import { Divider } from './Divder';
 export const Browse: FunctionComponent = () => {
   const { tokens } = useTokens();
 
-  if (tokens == null) {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING TOKENS</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   return (
     <>
       <PageSection>

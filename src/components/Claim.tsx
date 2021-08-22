@@ -24,16 +24,6 @@ export const Claim: FunctionComponent = () => {
   const { tokens } = useTokens();
   const { account, library, registerTransactions } = useWallet();
 
-  if (tokens == null) {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING TOKENS</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   const token = tokens.find((t) => nftViewId(t) === nftViewId({ tokenId, nft }));
 
   const onClaim = async (amount: BigNumber) => {

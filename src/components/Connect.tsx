@@ -33,7 +33,7 @@ export const Connect: FunctionComponent = (props) => {
   }
 
   if (state === 'init') {
-    return <Title>⌛️ LOADING</Title>;
+    return null;
   }
 
   if (state !== 'ready') {

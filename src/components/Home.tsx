@@ -73,16 +73,6 @@ export const Home: FunctionComponent = () => {
     });
   }, [tokens, status]);
 
-  if (status !== 'ready') {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING VIBES</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   if (view === 'loading') {
     return null;
   }

@@ -19,11 +19,11 @@ export const Protocol: FunctionComponent = () => {
   const { protocolView } = useProtocol();
   const { tokens } = useTokens();
 
-  if (protocolView == null || tokens == null) {
+  if (protocolView == null) {
     return (
       <PageSection>
         <Content>
-          <Title>⌛️ LOADING</Title>
+          <Title>⌛️ LOADING PROTOCOL INFO</Title>
         </Content>
       </PageSection>
     );

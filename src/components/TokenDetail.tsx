@@ -44,16 +44,6 @@ export const TokenDetail: FunctionComponent = () => {
   const { tokens, getMetadata } = useTokens();
   const classes = useStyles();
 
-  if (tokens == null) {
-    return (
-      <PageSection>
-        <Content>
-          <Title>⌛️ LOADING TOKEN</Title>
-        </Content>
-      </PageSection>
-    );
-  }
-
   const tokenView = tokens.find((t) => nftViewId(t) === nftViewId({ tokenId, nft }));
 
   if (!tokenView) {
