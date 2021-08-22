@@ -9,6 +9,7 @@ import { Button } from './Button';
 import { DecimalNumber } from './DecimalNumber';
 import { FlashingLabel } from './FlashingLabel';
 import { whalesSpottedInTheWild } from '../whales';
+import { useWallet } from '../hooks/wallet';
 
 interface Props {
   view: NFTView;
@@ -24,6 +25,7 @@ const useStyles = makeStyles<ThemeConfig>((theme) => {
 
 export const NFTLink: FunctionComponent<Props> = ({ view }) => {
   const { getSaleInfo } = useTokens();
+  const { account } = useWallet();
   const classes = useStyles();
 
   if (view.nft === getContracts().ssw) {
@@ -31,7 +33,7 @@ export const NFTLink: FunctionComponent<Props> = ({ view }) => {
     if (saleInfo?.forSale) {
       return (
         <Button externalNavTo={`https://www.screensaver.world/object/${view.tokenId}`}>
-          <FlashingLabel>
+          <FlashingLabel accent={account === saleInfo.currentBid?.bidder}>
             {whalesSpottedInTheWild.includes(saleInfo.currentBid?.bidder) && <>🐳</>}
             <DecimalNumber number={saleInfo.currentBid?.bid ?? BigNumber.from(0)} decimals={2} /> MATIC
           </FlashingLabel>

@@ -14,7 +14,6 @@ import { TokenGrid } from './TokenGrid';
 import { useTokens } from '../hooks/tokens';
 import { NftBag } from '../lib/nft';
 import { NFTView } from '../web3/wellspringv2';
-import shuffle from 'lodash/shuffle';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
@@ -35,43 +34,45 @@ const useStyles = makeStyles<ThemeConfig>((theme) => {
 
 interface HomeView {
   featured: NFTView;
-  recentForSale: NFTView[];
+  forSaleByArtist: NFTView[];
+  forSaleByCurator: NFTView[];
+  forSaleByCollector: NFTView[];
   recent: NFTView[];
 }
 
 export const Home: FunctionComponent = () => {
   const classes = useStyles();
-  const { tokens, getSaleInfo, status } = useTokens();
+  const { tokens, getSaleInfo, status, getMetadata } = useTokens();
   const [view, setView] = useState<'loading' | HomeView>('loading');
 
   useEffect(() => {
     if (status !== 'ready') return;
-    const bag = new NftBag(tokens);
+
+    const byArtist = tokens.filter((t) => getMetadata(t)?.creator === t.owner);
+    const byCurator = tokens.filter((t) => t.owner === t.infuser && getMetadata(t)?.creator !== t.owner);
+    const byCollector = tokens.filter((t) => getMetadata(t)?.creator !== t.owner && t.owner !== t.infuser);
+
+    const byArtistBag = new NftBag(byArtist);
+    const byCuratorBag = new NftBag(byCurator);
+    const byCollectorBag = new NftBag(byCollector);
 
     // featured is a random for-sale token
-    let featured = bag.takeWhere((t) => getSaleInfo(t)?.forSale);
-
-    // if none for sale, its any token
-    if (!featured) {
-      featured = bag.takeAny();
-    }
-
-    // all recent for sale stuff not featured
-    const recentForSale = shuffle(tokens.filter((t) => getSaleInfo(t)?.forSale && bag.exists(t)));
-    // const total = recentForSale.reduce((acc, t) => acc.add(getSaleInfo(t)?.currentBid?.bid ?? 0), BigNumber.from(0));
-    // console.log(formatUnits(total));
-
-    recentForSale.forEach((t) => bag.take(t));
-
-    const recent = tokens.filter((t) => bag.exists(t)).slice(0, 6);
-    recent.forEach((t) => bag.take(t));
+    const featured =
+      byArtistBag.takeWhere((t) => getSaleInfo(t)?.forSale) ??
+      byCuratorBag.takeWhere((t) => getSaleInfo(t)?.forSale) ??
+      byCollectorBag.takeWhere((t) => getSaleInfo(t)?.forSale) ??
+      byArtistBag.takeAny() ??
+      byCuratorBag.takeAny() ??
+      byCollectorBag.takeAny();
 
     setView({
       featured,
-      recentForSale,
-      recent,
+      forSaleByArtist: byArtistBag.takeManyWhere(6, (t) => getSaleInfo(t)?.forSale),
+      forSaleByCurator: byCuratorBag.takeManyWhere(6, (t) => getSaleInfo(t)?.forSale),
+      forSaleByCollector: byCollectorBag.takeManyWhere(6, (t) => getSaleInfo(t)?.forSale),
+      recent: [],
     });
-  }, [tokens, status]);
+  }, [tokens, status, getSaleInfo, getMetadata]);
 
   if (view === 'loading') {
     return null;
@@ -112,20 +113,30 @@ export const Home: FunctionComponent = () => {
           </TwoPanel>
         </PageSection>
       </div>
-      {view.recentForSale.length > 0 && (
+      {view.forSaleByArtist.length > 0 && (
         <PageSection>
           <Content>
-            <Title>🔥 VIBES NFTs For Sale</Title>
-            <TokenGrid detailed views={view.recentForSale} />
+            <Title>🎨 VIBES NFTs for sale by ARTIST</Title>
+            <TokenGrid detailed views={view.forSaleByArtist} />
           </Content>
         </PageSection>
       )}
-      {/* <PageSection>
-        <Content>
-          <Title>🌈 Recent VIBES NFTs</Title>
-          <TokenGrid detailed views={view.recent} />
-        </Content>
-      </PageSection> */}
+      {view.forSaleByCurator.length > 0 && (
+        <PageSection>
+          <Content>
+            <Title>🔥 VIBES NFTs for sale by CURATOR</Title>
+            <TokenGrid detailed views={view.forSaleByCurator} />
+          </Content>
+        </PageSection>
+      )}
+      {view.forSaleByCollector.length > 0 && (
+        <PageSection>
+          <Content>
+            <Title>🖼 VIBES NFTs for sale by COLLECTOR</Title>
+            <TokenGrid detailed views={view.forSaleByCollector} />
+          </Content>
+        </PageSection>
+      )}
       <PageSection>
         <Divider />
       </PageSection>
