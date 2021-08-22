@@ -39,6 +39,14 @@ export class NftBag {
     return this.takeWhere(() => true);
   }
 
+  takeMany(count: number): NFTView[] {
+    return [...new Array(count)].map(() => this.takeAny()).filter((t): t is NFTView => t !== undefined);
+  }
+
+  takeManyWhere(count: number, predicate: (token: NFTView) => boolean): NFTView[] {
+    return [...new Array(count)].map(() => this.takeWhere(predicate)).filter((t): t is NFTView => t !== undefined);
+  }
+
   takeWhere(predicate: (token: NFTView) => boolean): NFTView | undefined {
     const found = Object.values(this.remaining).filter(predicate);
     const sampled = sample(found);
