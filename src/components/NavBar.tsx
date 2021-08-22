@@ -107,7 +107,7 @@ export const NavBar: FunctionComponent = () => {
             <Button onClick={withClose(() => history.push('/'))}>🏠 HOME</Button>
           </div>
           <div>
-            <Button onClick={withClose(() => history.push('/tokens'))}>🌈 TOKENS</Button>
+            <Button onClick={withClose(() => history.push('/tokens/browse/for-sale'))}>🌈 TOKENS</Button>
           </div>
           <div>
             <Button onClick={withClose(() => history.push('/protocol'))}>⚙️ PROTOCOL</Button>

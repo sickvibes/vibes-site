@@ -17,7 +17,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 
 export const Protocol: FunctionComponent = () => {
   const { protocolView } = useProtocol();
-  const { tokens } = useTokens();
+  const { tokens, getMetadata } = useTokens();
 
   if (protocolView == null) {
     return (
@@ -40,11 +40,35 @@ export const Protocol: FunctionComponent = () => {
   const legacyClaimable = legacyTokens.reduce((acc, t) => acc.add(t.claimable), BigNumber.from(0));
   const legacyClaimed = legacyTokens.reduce((acc, t) => acc.add(t.claimed), BigNumber.from(0));
 
+  const artists = new Set(tokens.map((t) => getMetadata(t)?.creator));
+  const curators = new Set(tokens.map((t) => t.infuser));
+  const collectors = new Set(tokens.map((t) => t.owner));
+
   return (
     <>
       <PageSection>
         <Content>
           <Title>VIBES Protocol Overview</Title>
+          <TwoPanel>
+            <div>
+              <Stats>
+                <strong>🖼 VIBES NFTs</strong>: {tokens.length}
+                <br />
+                <strong>🎨 VIBES artists</strong>: {artists.size}
+                <br />
+                <strong>🔥 VIBES curators</strong>: {curators.size}
+                <br />
+                <strong>🌈 VIBES collectors</strong>: {collectors.size}
+              </Stats>
+            </div>
+            <div>
+              <Content>
+                <p>
+                  <Vibes /> NFTs are added to the network by Curators, who infuse NFTs they own with <Vibes />.
+                </p>
+              </Content>
+            </div>
+          </TwoPanel>
           <TwoPanel>
             <div>
               <Stats>

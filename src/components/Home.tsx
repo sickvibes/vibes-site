@@ -45,12 +45,16 @@ export const Home: FunctionComponent = () => {
   const { tokens, getSaleInfo, status, getMetadata } = useTokens();
   const [view, setView] = useState<'loading' | HomeView>('loading');
 
+  const byArtist = tokens.filter((t) => getMetadata(t)?.creator === t.owner);
+  const byCurator = tokens.filter((t) => t.owner === t.infuser && getMetadata(t)?.creator !== t.owner);
+  const byCollector = tokens.filter((t) => getMetadata(t)?.creator !== t.owner && t.owner !== t.infuser);
+
+  const forSaleByArtists = byArtist.filter((t) => getSaleInfo(t)?.forSale).length;
+  const forSaleByCurator = byCurator.filter((t) => getSaleInfo(t)?.forSale).length;
+  const forSaleByCollector = byCollector.filter((t) => getSaleInfo(t)?.forSale).length;
+
   useEffect(() => {
     if (status !== 'ready') return;
-
-    const byArtist = tokens.filter((t) => getMetadata(t)?.creator === t.owner);
-    const byCurator = tokens.filter((t) => t.owner === t.infuser && getMetadata(t)?.creator !== t.owner);
-    const byCollector = tokens.filter((t) => getMetadata(t)?.creator !== t.owner && t.owner !== t.infuser);
 
     const byArtistBag = new NftBag(byArtist);
     const byCuratorBag = new NftBag(byCurator);
@@ -118,6 +122,11 @@ export const Home: FunctionComponent = () => {
           <Content>
             <Title>🎨 VIBES NFTs for sale by ARTIST</Title>
             <TokenGrid detailed views={view.forSaleByArtist} />
+            <ButtonGroup>
+              <Button navTo="/tokens/browse/for-sale-by-artist">
+                🎨 Browse {forSaleByArtists} NFTs for sale by ARTIST
+              </Button>
+            </ButtonGroup>
           </Content>
         </PageSection>
       )}
@@ -126,14 +135,24 @@ export const Home: FunctionComponent = () => {
           <Content>
             <Title>🔥 VIBES NFTs for sale by CURATOR</Title>
             <TokenGrid detailed views={view.forSaleByCurator} />
+            <ButtonGroup>
+              <Button navTo="/tokens/browse/for-sale-by-curator">
+                🔥 Browse {forSaleByCurator} NFTs for sale by CURATOR
+              </Button>
+            </ButtonGroup>
           </Content>
         </PageSection>
       )}
       {view.forSaleByCollector.length > 0 && (
         <PageSection>
           <Content>
-            <Title>🖼 VIBES NFTs for sale by COLLECTOR</Title>
+            <Title>🌈 VIBES NFTs for sale by COLLECTOR</Title>
             <TokenGrid detailed views={view.forSaleByCollector} />
+            <ButtonGroup>
+              <Button navTo="/tokens/browse/for-sale-by-collector">
+                🌈 Browse {forSaleByCollector} NFTs for sale by COLLECTOR
+              </Button>
+            </ButtonGroup>
           </Content>
         </PageSection>
       )}

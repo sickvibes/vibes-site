@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import React, { FunctionComponent, useEffect } from 'react';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Browse } from './components/Browse';
 import { Claim } from './components/Claim';
 import { Error404 } from './components/Error404';
@@ -21,6 +21,13 @@ import { Cashgrabbaz } from './components/features/Cashgrabbaz';
 import { LoadGate } from './components/LoadGate';
 
 export const Application: FunctionComponent = () => {
+  const { pathname } = useLocation();
+
+  // always scroll when nav changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <Page>
       <LoadGate>
@@ -44,6 +51,9 @@ export const Application: FunctionComponent = () => {
             <Protocol />
           </Route>
           <Route exact path="/tokens">
+            <Browse />
+          </Route>
+          <Route path="/tokens/browse">
             <Browse />
           </Route>
           <Route
