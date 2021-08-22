@@ -31,10 +31,11 @@ export const NFTLink: FunctionComponent<Props> = ({ view }) => {
   if (view.nft === getContracts().ssw) {
     const saleInfo = getSaleInfo(view);
     if (saleInfo?.forSale) {
+      const bidder = saleInfo.currentBid?.bidder;
       return (
         <Button externalNavTo={`https://www.screensaver.world/object/${view.tokenId}`}>
-          <FlashingLabel accent={account === saleInfo.currentBid?.bidder}>
-            {whalesSpottedInTheWild.includes(saleInfo.currentBid?.bidder) && <>🐳</>}
+          <FlashingLabel accent={bidder && account === bidder}>
+            {whalesSpottedInTheWild.includes(bidder) && <>🐳</>}
             <DecimalNumber number={saleInfo.currentBid?.bid ?? BigNumber.from(0)} decimals={2} /> MATIC
           </FlashingLabel>
         </Button>
