@@ -10,6 +10,7 @@ import { DecimalNumber } from './DecimalNumber';
 import { PageSection } from './PageSection';
 import { Title } from './Title';
 import { Vibes } from './Vibes';
+import { useTokens } from '../hooks/tokens';
 
 const useStyles = makeStyles<ThemeConfig>((theme) => {
   return {
@@ -24,6 +25,7 @@ const useStyles = makeStyles<ThemeConfig>((theme) => {
 export const Curators: FunctionComponent = () => {
   const classes = useStyles();
   const { protocolView } = useProtocol();
+  const { tokens, getMetadata } = useTokens();
 
   const allowances = protocolView?.infusionPool.allowances.filter((a) => a.amount.gt(0)) ?? [];
 
@@ -33,13 +35,19 @@ export const Curators: FunctionComponent = () => {
         <Content>
           <Title>Curators</Title>
           <p>
-            Curators have the ability to to infuse NFTs in their wallet with <Vibes /> that can be mined by collectors.
+            🔥 Curators can infuse any NFT they own with <Vibes /> that can be mined by collectors.
+          </p>
+          <p>
+            🌱 Each curator has a certain amount of <em>influence</em> that can be spent to curate NFTs, or transfered
+            to another address to onboard other curators.
           </p>
           <table>
             <thead>
               <tr className={classes.header}>
-                <th>curator</th>
-                <th>allowance</th>
+                <th>CURATOR</th>
+                <th>INFLUENCE</th>
+                <th>INFUSED NFTs</th>
+                <th>CURATED NFTs</th>
               </tr>
             </thead>
             <tbody>
@@ -51,7 +59,13 @@ export const Curators: FunctionComponent = () => {
                     </Button>
                   </td>
                   <td>
-                    <DecimalNumber number={a.amount} decimals={0} /> <Vibes />
+                    <DecimalNumber number={a.amount} decimals={0} />
+                  </td>
+                  <td>
+                    {tokens.filter((t) => t.infuser === a.address && getMetadata(t)?.creator === a.address).length}
+                  </td>
+                  <td>
+                    {tokens.filter((t) => t.infuser === a.address && getMetadata(t)?.creator !== a.address).length}
                   </td>
                 </tr>
               ))}

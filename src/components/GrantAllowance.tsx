@@ -57,13 +57,13 @@ export const GrantContent: FunctionComponent = () => {
   if (grantAmount.lt(constraints.minGrant)) {
     error = (
       <>
-        Grant amount must be at least <DecimalNumber number={constraints.minGrant} decimals={0} /> <Vibes />
+        Transfer amount must be at least <DecimalNumber number={constraints.minGrant} decimals={0} />
       </>
     );
   } else if (grantAmount.gt(allowanceAmount)) {
     error = (
       <>
-        Grant amount exceeds your <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes /> allowance
+        Transfer amount exceeds your <DecimalNumber number={allowanceAmount} decimals={0} /> <strong>influence</strong>
       </>
     );
   } else if (!isValidAddress) {
@@ -74,7 +74,7 @@ export const GrantContent: FunctionComponent = () => {
     return (
       <>
         <Title>Transaction Submitted</Title>
-        <p>The grant transaction has been submitted.</p>
+        <p>The transfer has been submitted.</p>
         <ButtonGroup>
           <Button navTo="/wallet">⚡️ VIEW TRX in WALLET</Button>
           <Button navTo="/curate">✅ DONE</Button>
@@ -85,11 +85,13 @@ export const GrantContent: FunctionComponent = () => {
 
   return (
     <>
-      <Title>Grant Allowance</Title>
+      <Title>Transfer Influence</Title>
       <Content>
-        <p>Grant all or part of your infusion pool allowance to another address to onboard another curator.</p>
         <p>
-          <strong>your grant allowance</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes />
+          Transfer all or part of your <strong>influence</strong> to another address to onboard another curator.
+        </p>
+        <p>
+          <strong>your influence</strong>: <DecimalNumber number={allowanceAmount} decimals={0} />
         </p>
         <p>
           <strong>Recipient Address</strong>:
@@ -108,18 +110,17 @@ export const GrantContent: FunctionComponent = () => {
         {error && <p>⚠️ {error}</p>}
         {!error && (
           <p>
-            You are about to transfer <DecimalNumber number={grantAmount} decimals={0} /> <Vibes /> of your grant
-            allowance to{' '}
+            You are about to transfer <DecimalNumber number={grantAmount} decimals={0} /> of your{' '}
+            <strong>influence</strong> to{' '}
             <strong>
               <Address address={address} />
             </strong>
-            . This will allow them to influence the direction of the <Vibes /> art collection by giving them the ability
-            to curate NFTs or onboard more curators.
+            . This will allow them to curate NFTs into the <Vibes /> art collection or further onboard more curators.
           </p>
         )}
         <ButtonGroup>
           <Button disabled={Boolean(error)} onClick={submitGrantTrx}>
-            🎁 GRANT ALLOWANCE
+            🌱 TRANSFER INFLUENCE
           </Button>
           <Button navTo="/curate">🙅‍♀️ CANCEL</Button>
         </ButtonGroup>

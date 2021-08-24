@@ -4,6 +4,7 @@ import { getContracts } from '../contracts';
 import { getProvider } from '../lib/rpc';
 import WELLSPRING from './abi/wellspring.json';
 import WELLSPRING_V2 from './abi/wellspring-v2.json';
+import { parseUnits } from 'ethers/lib/utils';
 
 export interface Token {
   nft: string;
@@ -31,6 +32,7 @@ export interface NFTView {
 
   sampledAt: number;
   claimed: BigNumber;
+  estimatedOriginalInfusedAmount: BigNumber;
 }
 
 export const nftViewId = (view: Token): string => `${view.nft}:${view.tokenId}`;
@@ -71,6 +73,7 @@ export const getNFTDetails = async (tokens: Token[]): Promise<(NFTView | null)[]
 
       sampledAt: now,
       claimed,
+      estimatedOriginalInfusedAmount: claimed.add(v.balance),
     };
   });
 

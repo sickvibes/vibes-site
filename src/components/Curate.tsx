@@ -64,16 +64,18 @@ const CurateContent: FunctionComponent = () => {
       <Content>
         <Title>Curate</Title>
         <p>
-          🌈 You are a <Vibes /> curator. This allows you to influence the <Vibes /> art collection by adding new NFTs
+          🔥 You are a <Vibes /> curator. This allows you to influence the <Vibes /> art collection by adding new NFTs
           to the network or granting others the ability to curate.
         </p>
-        <p>🧪 How you integrate this into your story as an artist or collector is entirely up to you.</p>
+        <p>
+          🧪 How you integrate this into your story as an artist or collector is entirely up to you. Each curator will
+          have their own individual approach and process.
+        </p>
         <Stats>
-          <strong>🏊‍♀️ remaining grant pool</strong>:{' '}
+          🌱 <strong>your influence</strong>: <DecimalNumber number={allowanceAmount} decimals={0} />
+          <br />
+          <strong>🏊‍♀️ grant pool balance</strong>:{' '}
           <DecimalNumber decimals={0} number={protocolView.infusionPool.balance} /> <Vibes />
-          <br />
-          🔥 <strong>your grant allowance</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes />
-          <br />
         </Stats>
         <ButtonGroup>
           <Button navTo="/curate/curators">👀 VIEW CURATORS</Button>
@@ -83,7 +85,7 @@ const CurateContent: FunctionComponent = () => {
             <Title>Infuse NFTs</Title>
             <Content>
               <p>
-                Curators can infuse NFTs from their wallet with <Vibes /> that can mined by collectors.
+                Curators can infuse any NFT they own with <Vibes /> that can be mined by collectors.
               </p>
               <ButtonGroup>
                 <Button navTo="/curate/infuse">🔥 INFUSE</Button>
@@ -91,13 +93,14 @@ const CurateContent: FunctionComponent = () => {
             </Content>
           </div>
           <div>
-            <Title>Grant Allowance</Title>
+            <Title>Transfer Influence</Title>
             <Content>
               <p>
-                Curators can transfer some or all of their grant allowance to another address, onboarding new curators.
+                Curators can transfer some or all of their <strong>influence</strong> to another address, onboarding new
+                curators.
               </p>
               <ButtonGroup>
-                <Button navTo="/curate/grant">🎁 GRANT</Button>
+                <Button navTo="/curate/grant">🌱 TRANSFER</Button>
               </ButtonGroup>
             </Content>
           </div>

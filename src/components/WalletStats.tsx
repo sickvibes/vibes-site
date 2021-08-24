@@ -38,7 +38,9 @@ export const WalletStats: FunctionComponent = () => {
               <br />
               💎 <strong>mining</strong>: <DecimalNumber number={mining} decimals={0} /> <Vibes />
               <br />
-              🏛 <strong>voter power</strong>: <DecimalNumber number={accountView.votePower} decimals={0} />
+              🏛 <strong>vote power</strong>: <DecimalNumber number={accountView.votePower} decimals={0} />
+              <br />
+              🌱 <strong>influence</strong>: <DecimalNumber number={allowanceAmount} decimals={0} />
               <br />
               💰 <strong>your liquidity</strong>:{' '}
               <DecimalNumber number={accountView.vibesMaticLpBalance} decimals={0} /> LP
@@ -55,8 +57,6 @@ export const WalletStats: FunctionComponent = () => {
                 </>
               )}
               🖼 <strong>owned VIBES NFTs</strong>: {owned.length}
-              <br />
-              🔥 <strong>infusion grant</strong>: <DecimalNumber number={allowanceAmount} decimals={0} /> <Vibes />
               <br />
               ⚡️ <strong>pending trx</strong>:{' '}
               {transactions.length === 0
