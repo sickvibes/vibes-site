@@ -28,6 +28,7 @@ export const getContracts = () => {
     ssw: '0x486ca491C9A0a9ACE266AA100976bfefC57A0Dd4',
     quickswapVibesMatic: '0x4F9e9C2EB7D90447FA190d4986b9E0A1562E2587',
     quickswapUsdcMatic: '0x6e7a5fafcec6bb1e78bae2a1f0b612012bf14827',
+    sswv0: '0x2452d8049f04d54ca779257678a691ee4a413267',
 
     // misc
     multipay: '0xe7dBF1DECDee8A1990199580d2c732DD6FCBadc9',
