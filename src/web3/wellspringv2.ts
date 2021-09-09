@@ -4,7 +4,6 @@ import { getContracts } from '../contracts';
 import { getProvider } from '../lib/rpc';
 import WELLSPRING from './abi/wellspring.json';
 import WELLSPRING_V2 from './abi/wellspring-v2.json';
-import { parseUnits } from 'ethers/lib/utils';
 
 export interface Token {
   nft: string;

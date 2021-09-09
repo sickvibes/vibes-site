@@ -5,6 +5,10 @@ import { getRecentTokens, NFTView, nftViewId } from '../web3/wellspringv2';
 import { batchGetAuctionInfo, TokenSale } from '../web3/ssw';
 import { getAllTokens } from '../lib/vibes-api';
 
+interface TokenError {
+  message: string;
+}
+
 /**
  * Global info about the protocol
  */
@@ -18,11 +22,11 @@ export const useTokensImplementation = () => {
   const fetchTokens = async () => {
     setStatus('fetching tokens');
     const tokens = await getRecentTokens({ limit: 500 });
-    const sswTokens = tokens.filter((t) => t.nft === getContracts().ssw);
     setTokens(tokens);
 
     setStatus('fetching sale information');
-    const info = await batchGetAuctionInfo(sswTokens.map((t) => t.tokenId));
+    const sswTokens = tokens.filter((t) => t.nft === getContracts().ssw || t.nft === getContracts().sswv0);
+    const info = await batchGetAuctionInfo(sswTokens);
     const saleInfo: Record<string, TokenSale> = {};
     for (const sale of info) {
       saleInfo[nftViewId(sale)] = sale;
