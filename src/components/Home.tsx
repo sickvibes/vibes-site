@@ -98,7 +98,7 @@ export const Home: FunctionComponent = () => {
                   art.
                 </p>
                 <ButtonGroup>
-                  <Button navTo="/tokens">🌈 BROWSE ART</Button>
+                  <Button navTo="/tokens/browse/buy-now">🌈 BUY DOPE ART</Button>
                   <Button externalNavTo="https://docs.sickvibes.xyz">🚀 LEARN MORE</Button>
                 </ButtonGroup>
                 <p> </p>
@@ -120,7 +120,7 @@ export const Home: FunctionComponent = () => {
       {view.forSaleByArtist.length > 0 && (
         <PageSection>
           <Content>
-            <Title>🎨 VIBES NFTs for sale by ARTIST</Title>
+            <Title>🎨 VIBES Art for sale by ARTIST</Title>
             <TokenGrid detailed views={view.forSaleByArtist} />
             <ButtonGroup>
               <Button navTo="/tokens/browse/for-sale-by-artist">
@@ -133,7 +133,7 @@ export const Home: FunctionComponent = () => {
       {view.forSaleByCurator.length > 0 && (
         <PageSection>
           <Content>
-            <Title>🔥 VIBES NFTs for sale by CURATOR</Title>
+            <Title>🔥 VIBES Art for sale by CURATOR</Title>
             <TokenGrid detailed views={view.forSaleByCurator} />
             <ButtonGroup>
               <Button navTo="/tokens/browse/for-sale-by-curator">

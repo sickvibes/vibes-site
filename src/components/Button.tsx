@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/styles';
 import React, { FunctionComponent } from 'react';
+import { propTypes } from 'react-markdown';
 import { useHistory } from 'react-router-dom';
 import { ThemeConfig } from '../Theme';
 
@@ -7,10 +8,15 @@ type Props = React.HtmlHTMLAttributes<HTMLSpanElement> & {
   navTo?: string;
   externalNavTo?: string;
   disabled?: boolean;
+  active?: boolean;
 };
 
 const useStyles = makeStyles<ThemeConfig, Props>((theme) => {
   return {
+    active: {
+      background: (props) => (props.disabled ? 'inherit' : theme.palette.accent.secondary),
+      color: (props) => (props.disabled ? 'inherit' : theme.palette.background.main),
+    },
     inner: {
       '&:hover': {
         background: (props) => (props.disabled ? 'inherit' : theme.palette.accent.dark),
@@ -47,9 +53,11 @@ export const Button: FunctionComponent<Props> = (props) => {
     attr.onClick = () => null;
   }
 
+  const innerClassName = `${classes.inner} ${props.active ? classes.active : ''}`;
+
   return (
     <span {...attr} className={className}>
-      [<span className={classes.inner}>{props.children}</span>]
+      [<span className={innerClassName}>{props.children}</span>]
     </span>
   );
 };

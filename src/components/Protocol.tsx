@@ -72,7 +72,7 @@ export const Protocol: FunctionComponent = () => {
           <TwoPanel>
             <div>
               <Stats>
-                <strong>🤑 circulating supply</strong>:{' '}
+                <strong>🤑 circ. supply</strong>:{' '}
                 <DecimalNumber
                   number={protocolView.vibesToken.totalSupply.sub(protocolView.gnosisSafe.vibesBalance)}
                   decimals={0}

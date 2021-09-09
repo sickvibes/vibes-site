@@ -46,12 +46,13 @@ export const Infuser: FunctionComponent = () => {
   const { protocolView } = useProtocol();
   const [days, setDays] = useState(50);
   const [tokenId, setTokenId] = useState('');
+  const [nft, setNft] = useState(getContracts().ssw);
   const [uiState, setUiState] = useState<'input' | 'confirm' | { trx: string }>('input');
 
   if (uiState === 'confirm') {
     return (
       <>
-        <Confirm days={days} tokenId={tokenId} back={() => setUiState('input')} />
+        <Confirm days={days} nft={nft} tokenId={tokenId} back={() => setUiState('input')} />
       </>
     );
   }
@@ -100,7 +101,16 @@ export const Infuser: FunctionComponent = () => {
           Infuse an NFT from your wallet with <Vibes /> to add it to the curated network:
         </p>
         <p>
-          <strong>Screensaver.World Token ID</strong>:
+          <strong>NFT Contract</strong>:<br />
+          <Button active={nft === getContracts().sswv0} onClick={() => setNft(getContracts().sswv0)}>
+            SSW v0
+          </Button>{' '}
+          <Button active={nft === getContracts().ssw} onClick={() => setNft(getContracts().ssw)}>
+            SSW v1
+          </Button>
+        </p>
+        <p>
+          <strong>Token ID</strong>:
           <Input placeholder="Token ID" value={tokenId} onTextChange={(t) => setTokenId(t)} regex={/^[0-9]*$/} />
         </p>
         <p>
@@ -126,7 +136,7 @@ export const Infuser: FunctionComponent = () => {
   );
 };
 
-const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => unknown }> = (props) => {
+const Confirm: FunctionComponent<{ tokenId: string; nft: string; days: number; back: () => unknown }> = (props) => {
   const { account, library, registerTransactions } = useWallet();
   const [nftView, setNftView] = useState<NFTView>(null);
   const [metadata, setMetadata] = useState<Metadata>(null);
@@ -138,9 +148,8 @@ const Confirm: FunctionComponent<{ tokenId: string; days: number; back: () => un
     fetchNft();
   }, [props.tokenId]);
 
-  const nft = getContracts().ssw;
   const dailyRate = parseEther('1000');
-  const { tokenId, days, back } = props;
+  const { nft, tokenId, days, back } = props;
   const amount = dailyRate.mul(days);
 
   const fetchNft = async () => {

@@ -8,8 +8,8 @@ import { NFTView } from '../web3/wellspringv2';
 import { Button } from './Button';
 import { DecimalNumber } from './DecimalNumber';
 import { FlashingLabel } from './FlashingLabel';
-import { whalesSpottedInTheWild } from '../whales';
 import { useWallet } from '../hooks/wallet';
+import { resolveExternalLink } from '../web3/external-link';
 
 interface Props {
   view: NFTView;
@@ -28,25 +28,34 @@ export const NFTLink: FunctionComponent<Props> = ({ view }) => {
   const { account } = useWallet();
   const classes = useStyles();
 
-  if (view.nft === getContracts().ssw) {
-    const saleInfo = getSaleInfo(view);
-    if (saleInfo?.forSale) {
-      const bidder = saleInfo.currentBid?.bidder;
-      return (
-        <Button externalNavTo={`https://www.screensaver.world/object/${view.tokenId}`}>
-          <FlashingLabel accent={bidder && account === bidder}>
-            {whalesSpottedInTheWild.includes(bidder) && <>🐳</>}
-            <DecimalNumber number={saleInfo.currentBid?.bid ?? BigNumber.from(0)} decimals={2} /> MATIC
-          </FlashingLabel>
-        </Button>
-      );
-    }
+  const externaLink = resolveExternalLink(view);
+  const saleInfo = getSaleInfo(view);
+
+  if (saleInfo.tokenPrice?.gt(0)) {
     return (
-      <Button externalNavTo={`https://www.screensaver.world/object/${view.tokenId}`}>
-        <span className={classes.tag}>ssw</span>#{view.tokenId}
+      <Button externalNavTo={externaLink.url}>
+        <FlashingLabel accent="secondary">
+          ⚡️
+          <DecimalNumber number={saleInfo.tokenPrice} decimals={2} /> MATIC
+        </FlashingLabel>
       </Button>
     );
   }
 
-  return <Button externalNavTo={`https://opensea.io/assets/matic/${view.nft}/${view.tokenId}`}>#{view.tokenId}</Button>;
+  if (saleInfo?.forSale) {
+    const bidder = saleInfo.currentBid?.bidder;
+    return (
+      <Button externalNavTo={externaLink.url}>
+        <FlashingLabel accent={bidder && account === bidder ? 'main' : undefined}>
+          <DecimalNumber number={saleInfo.currentBid?.bid ?? BigNumber.from(0)} decimals={2} /> MATIC
+        </FlashingLabel>
+      </Button>
+    );
+  }
+
+  return (
+    <Button externalNavTo={externaLink.url}>
+      <span className={classes.tag}>{externaLink.symbol ?? ''}</span>#{view.tokenId}
+    </Button>
+  );
 };

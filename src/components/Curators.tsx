@@ -28,6 +28,7 @@ export const Curators: FunctionComponent = () => {
   const { tokens, getMetadata } = useTokens();
 
   const allowances = protocolView?.infusionPool.allowances.filter((a) => a.amount.gt(0)) ?? [];
+  const sorted = allowances.sort((a, b) => (a.amount.gt(b.amount) ? -1 : a.amount.lt(b.amount) ? 1 : 0));
 
   return (
     <>
@@ -51,7 +52,7 @@ export const Curators: FunctionComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {allowances.map((a) => (
+              {sorted.map((a) => (
                 <tr key={a.address}>
                   <td>
                     <Button navTo={`/profile/${a.address}`}>

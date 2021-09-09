@@ -39,7 +39,7 @@ export const createTheme = () => {
       },
     },
     font: '"DM Mono", monospace',
-    maxWidth: '1000px',
+    maxWidth: '1150px',
     spacing: (...mults: number[]): string => mults.map((m) => `${m / 4}rem`).join(' '),
     scaledSpacing: (size: number, scaling = 0.1): string =>
       `calc(${theme.spacing(size)} + min(${scaling}vw, ${scaling}vh))`,

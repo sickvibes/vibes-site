@@ -4,13 +4,13 @@ import { ThemeConfig } from '../Theme';
 
 interface Props {
   label?: string;
-  accent?: boolean;
+  accent?: keyof ThemeConfig['palette']['accent'];
 }
 
 const useStyles = makeStyles<ThemeConfig, Props>((theme) => {
   return {
     notFlash: {
-      color: (props) => (props.accent ? theme.palette.accent.main : theme.palette.accent.quadriarylolwhat),
+      color: (props) => (props.accent ? theme.palette.accent[props.accent] : theme.palette.accent.quadriarylolwhat),
     },
     flash: {
       color: (props) => (props.accent ? 'white' : theme.palette.accent.tertiary),

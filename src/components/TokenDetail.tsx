@@ -7,6 +7,7 @@ import { Title } from './Title';
 
 import { nftViewId } from '../web3/wellspringv2';
 import { TwoPanel } from './TwoPanel';
+import { TokenGrid } from './TokenGrid';
 import { Address } from './Address';
 import { makeStyles } from '@material-ui/styles';
 import { ThemeConfig } from '../Theme';
@@ -20,6 +21,8 @@ import { Divider } from './Divder';
 import { useWallet } from '../hooks/wallet';
 import { TokenCard } from './TokenCard';
 import { useTokens } from '../hooks/tokens';
+import { sample } from '../lib/random';
+import { resolveExternalLink } from '../web3/external-link';
 
 interface Params {
   nft: string;
@@ -71,6 +74,22 @@ export const TokenDetail: FunctionComponent = () => {
       </PageSection>
     );
   }
+
+  const viewId = nftViewId(tokenView);
+
+  const byArtist = tokens.filter((t) => getMetadata(t)?.creator === metadata.creator && nftViewId(t) !== viewId);
+  const byCurator = tokens.filter(
+    (t) => t.infuser === tokenView.infuser && t.infuser !== getMetadata(t)?.creator && nftViewId(t) !== viewId
+  );
+  const byCollector = tokens.filter(
+    (t) => t.owner === tokenView.owner && t.infuser !== t.owner && nftViewId(t) !== viewId
+  );
+
+  const moreByArtist = sample(byArtist, 3, viewId);
+  const moreFromCurator = sample(byCurator, 3, viewId);
+  const moreFromCollector = sample(byCollector, 3, viewId);
+
+  const externaLink = resolveExternalLink(tokenView);
 
   return (
     <>
@@ -149,9 +168,9 @@ export const TokenDetail: FunctionComponent = () => {
                 >
                   😎 CLAIM <Vibes />
                 </Button>
-                <Button externalNavTo={`https://www.screensaver.world/object/${tokenView.tokenId}`}>
-                  🌌 VIEW on screensaver
-                </Button>
+                {externaLink.name !== 'OpenSea' && (
+                  <Button externalNavTo={externaLink.url}>🌌 VIEW on {externaLink.name}</Button>
+                )}
                 <Button externalNavTo={`https://opensea.io/assets/matic/${tokenView.nft}/${tokenView.tokenId}`}>
                   ⛵️ VIEW on OpenSea
                 </Button>
@@ -159,6 +178,58 @@ export const TokenDetail: FunctionComponent = () => {
             </Content>
           </div>
         </TwoPanel>
+      </PageSection>
+      <PageSection>
+        <Content>
+          {(moreByArtist.length && metadata && (
+            <>
+              <div>
+                <Title align="left">
+                  More Created By <Address address={metadata.creator} />
+                </Title>
+                <TokenGrid views={moreByArtist} detailed />
+              </div>
+              <ButtonGroup>
+                <Button navTo={`/profile/${metadata.creator}/created`}>
+                  🎨 Browse NFTs created by <Address address={metadata.creator} />
+                </Button>
+              </ButtonGroup>
+            </>
+          )) ||
+            null}
+          {(moreFromCurator.length && metadata && (
+            <>
+              <div>
+                <Title align="left">
+                  More Curated By <Address address={tokenView.infuser} />
+                </Title>
+                <TokenGrid views={moreFromCurator} detailed />
+              </div>
+              <ButtonGroup>
+                <Button navTo={`/profile/${tokenView.infuser}/curated`}>
+                  🔥 Browse NFTs curated by <Address address={tokenView.infuser} />
+                </Button>
+              </ButtonGroup>
+            </>
+          )) ||
+            null}
+          {(moreFromCollector.length && metadata && (
+            <>
+              <div>
+                <Title align="left">
+                  More Collected By <Address address={tokenView.owner} />
+                </Title>
+                <TokenGrid views={moreFromCollector} detailed />
+              </div>
+              <ButtonGroup>
+                <Button navTo={`/profile/${tokenView.owner}/owned`}>
+                  🌈 Browse NFTs collected by <Address address={tokenView.owner} />
+                </Button>
+              </ButtonGroup>
+            </>
+          )) ||
+            null}
+        </Content>
       </PageSection>
       <PageSection>
         <Divider />

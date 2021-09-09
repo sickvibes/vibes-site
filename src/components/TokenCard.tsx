@@ -8,10 +8,7 @@ import { NFTLink } from './NFTLink';
 import { Address } from './Address';
 import { Button } from './Button';
 import { useTokens } from '../hooks/tokens';
-import { ipfsGatewayUrl } from '../lib/ipfs';
-import { ButtonGroup } from './ButtonGroup';
-import { FlashingLabel } from './FlashingLabel';
-import { Content } from './Content';
+import { restrictedIpfsGatewayUrl } from '../lib/ipfs';
 
 interface Props {
   view: NFTView;
@@ -45,10 +42,9 @@ const useStyles = makeStyles<ThemeConfig>((theme) => {
 
 export const TokenCard: FunctionComponent<Props> = ({ view, detailed }) => {
   const classes = useStyles();
-  const { getMetadata, getSaleInfo } = useTokens();
+  const { getMetadata } = useTokens();
 
   const metadata = getMetadata(view);
-  const saleInfo = getSaleInfo(view);
 
   if (!metadata) {
     return null;
@@ -59,10 +55,10 @@ export const TokenCard: FunctionComponent<Props> = ({ view, detailed }) => {
       <div className={classes.token}>
         <div className={classes.media}>
           <Link to={`/tokens/${view.nft}/${view.tokenId}`}>
-            {!metadata.animation_url && <img src={ipfsGatewayUrl(metadata.image)} />}
+            {!metadata.animation_url && <img src={restrictedIpfsGatewayUrl(metadata.image)} />}
             {metadata.animation_url && (
               <video autoPlay muted loop controls={false}>
-                <source src={metadata.animation_url} />
+                <source src={restrictedIpfsGatewayUrl(metadata.animation_url)} />
               </video>
             )}
           </Link>
@@ -72,7 +68,8 @@ export const TokenCard: FunctionComponent<Props> = ({ view, detailed }) => {
             <div>
               <DecimalNumber
                 number={view.claimable}
-                interoplate={{ sampledAt: view.sampledAt, dailyRate: view.dailyRate }}
+                decimals={3}
+                interoplate={{ sampledAt: view.sampledAt, dailyRate: view.dailyRate, max: view.balance }}
               />{' '}
               VIBES
             </div>
