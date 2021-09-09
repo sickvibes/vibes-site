@@ -1,7 +1,7 @@
 import { NFTView, nftViewId } from '../web3/wellspringv2';
 import { fetchIpfsJson } from './ipfs';
 import memoize from 'lodash/memoize';
-import sample from 'lodash/sample';
+import { sample } from './random';
 
 export interface Metadata {
   name: string;
@@ -49,7 +49,7 @@ export class NftBag {
 
   takeWhere(predicate: (token: NFTView) => boolean): NFTView | undefined {
     const found = Object.values(this.remaining).filter(predicate);
-    const sampled = sample(found);
+    const [sampled] = sample(found, 1);
     if (sampled !== undefined) {
       delete this.remaining[nftViewId(sampled)];
     }

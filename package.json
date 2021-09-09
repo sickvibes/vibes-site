@@ -75,6 +75,7 @@
     "ethers": "5.0.29",
     "ethers-multicall": "0.2.1",
     "lodash": "4.17.21",
-    "react-markdown": "6.0.2"
+    "react-markdown": "6.0.2",
+    "rand-seed": "1.0.0"
   }
 }

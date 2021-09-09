@@ -18,3 +18,16 @@ export const ipfsGatewayUrl = (ipfsUrl: string): string => {
   const [, hash] = match;
   return `https://ipfs.io/ipfs/${hash}`;
 };
+
+// pinata is having some issues with pinning lately
+const brokenHashes: string[] = [];
+
+export const restrictedIpfsGatewayUrl = (ipfsUrl: string): string => {
+  const match = ipfsUrl.match(/\/ipfs\/(.*)$/);
+  if (!match) throw new Error();
+  const [, hash] = match;
+  if (brokenHashes.includes(hash)) {
+    return `https://ipfs.io/ipfs/${hash}`;
+  }
+  return `https://ipfs.sickvibes.xyz/ipfs/${hash}`;
+};
