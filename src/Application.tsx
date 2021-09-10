@@ -19,6 +19,7 @@ import { Curators } from './components/Curators';
 import { GrantAllowance } from './components/GrantAllowance';
 import { Cashgrabbaz } from './components/features/Cashgrabbaz';
 import { LoadGate } from './components/LoadGate';
+import { Sphynx } from './components/features/Sphynx';
 
 export const Application: FunctionComponent = () => {
   const { pathname } = useLocation();
@@ -92,6 +93,9 @@ export const Application: FunctionComponent = () => {
           </Route>
           <Route exact path="/voidkross/cashgrabbaz">
             <Cashgrabbaz />
+          </Route>
+          <Route exact path="/jazdaartist/sphynx">
+            <Sphynx />
           </Route>
           <Route path="*">
             <Error404 />
