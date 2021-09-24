@@ -20,12 +20,28 @@ export const useTokensImplementation = () => {
   const [status, setStatus] = useState<string | 'ready'>('loading');
 
   const fetchTokens = async () => {
-    setStatus('fetching tokens');
-    const tokens = await getRecentTokens({ limit: 500 });
-    setTokens(tokens);
+    const buffer: NFTView[] = [];
+
+    let offset = 0;
+    let count = 0;
+    const limit = 250;
+
+    while (true) {
+      setStatus(`fetching tokens (${++count})`);
+      const fetched = await getRecentTokens({ limit, offset });
+      buffer.push(...fetched);
+
+      if (fetched.length < limit) {
+        break;
+      }
+
+      offset += fetched.length;
+    }
+
+    setTokens(buffer);
 
     setStatus('fetching sale information');
-    const sswTokens = tokens.filter((t) => t.nft === getContracts().ssw || t.nft === getContracts().sswv0);
+    const sswTokens = buffer.filter((t) => t.nft === getContracts().ssw || t.nft === getContracts().sswv0);
     const info = await batchGetAuctionInfo(sswTokens);
     const saleInfo: Record<string, TokenSale> = {};
     for (const sale of info) {
