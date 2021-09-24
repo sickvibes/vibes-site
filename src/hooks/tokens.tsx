@@ -27,7 +27,7 @@ export const useTokensImplementation = () => {
     const limit = 250;
 
     while (true) {
-      setStatus(`fetching tokens (${++count})`);
+      setStatus(`😎 querying contract cluster (${++count})...`);
       const fetched = await getRecentTokens({ limit, offset });
       buffer.push(...fetched);
 
@@ -40,7 +40,7 @@ export const useTokensImplementation = () => {
 
     setTokens(buffer);
 
-    setStatus('fetching sale information');
+    setStatus('🏄‍♂️ resolving screensaver data...');
     const sswTokens = buffer.filter((t) => t.nft === getContracts().ssw || t.nft === getContracts().sswv0);
     const info = await batchGetAuctionInfo(sswTokens);
     const saleInfo: Record<string, TokenSale> = {};
@@ -49,7 +49,7 @@ export const useTokensImplementation = () => {
     }
     setSaleInfo(saleInfo);
 
-    setStatus('fetching cached metadata');
+    setStatus('⛹️‍♀️ fetching metadata blob...');
     const resp = await getAllTokens();
     const metadata: Record<string, Metadata> = {};
     resp.forEach((t) => (metadata[nftViewId(t)] = t.metadata));
