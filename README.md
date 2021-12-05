@@ -4,20 +4,26 @@
 
 ## Development
 
+Install dependencies:
+
+```
+yarn
+```
+
 Run the site locally:
 
 ```
-npm run dev
+yarn dev
 ```
 
 Build the site to `./dist`:
 
 ```
-npm run build
+yarn build
 ```
 
 Remove build artifacts:
 
 ```
-npm run clean
+yarn clean
 ```
