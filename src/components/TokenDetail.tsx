@@ -23,6 +23,7 @@ import { TokenCard } from './TokenCard';
 import { useTokens } from '../hooks/tokens';
 import { sample } from '../lib/random';
 import { resolveExternalLink } from '../web3/external-link';
+import { BigNumber } from 'ethers';
 
 interface Params {
   nft: string;
@@ -134,10 +135,12 @@ export const TokenDetail: FunctionComponent = () => {
                 <br />
                 <strong>✨ infused:</strong> <DecimalNumber number={tokenView.balance} decimals={0} /> <Vibes /> (
                 {prettyPrintDays(
-                  tokenView.balance
-                    .mul(60 * 60 * 24)
-                    .div(tokenView.dailyRate)
-                    .toNumber()
+                  tokenView.dailyRate.eq(0)
+                    ? 0
+                    : tokenView.balance
+                        .mul(60 * 60 * 24)
+                        .div(tokenView.dailyRate)
+                        .toNumber()
                 )}
                 )
                 <br />
@@ -145,7 +148,11 @@ export const TokenDetail: FunctionComponent = () => {
                 <DecimalNumber
                   number={tokenView.claimable}
                   decimals={3}
-                  interoplate={{ dailyRate: tokenView.dailyRate, sampledAt: tokenView.sampledAt }}
+                  interoplate={{
+                    dailyRate: tokenView.dailyRate,
+                    sampledAt: tokenView.sampledAt,
+                    max: tokenView.balance,
+                  }}
                 />{' '}
                 <Vibes />
                 <br />

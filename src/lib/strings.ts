@@ -50,6 +50,10 @@ export const parseBase64MetadataUri = (uri: string): Metadata => {
 };
 
 export const prettyPrintDays = (seconds: number): string => {
+  if (seconds === 0) {
+    return '-';
+  }
+
   const days = Math.floor(seconds / 60 / 60 / 24);
 
   if (days === 0) {
