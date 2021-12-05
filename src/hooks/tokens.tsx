@@ -28,14 +28,14 @@ export const useTokensImplementation = () => {
 
     while (true) {
       setStatus(`😎 querying contract cluster (${++count})...`);
-      const fetched = await getRecentTokens({ limit, offset });
-      buffer.push(...fetched);
+      const { views, isLastPage } = await getRecentTokens({ limit, offset });
+      buffer.push(...views);
 
-      if (fetched.length < limit) {
+      if (isLastPage) {
         break;
       }
 
-      offset += fetched.length;
+      offset += views.length;
     }
 
     setTokens(buffer);

@@ -4,6 +4,7 @@ import { getContracts } from '../contracts';
 import { getProvider } from '../lib/rpc';
 import WELLSPRING from './abi/wellspring.json';
 import WELLSPRING_V2 from './abi/wellspring-v2.json';
+import { filter } from 'lodash';
 
 export interface Token {
   nft: string;
@@ -85,7 +86,16 @@ interface RecentTokens {
   infuser?: string;
 }
 
-export const getRecentTokens = async ({ limit = 10, offset = 0, infuser }: RecentTokens = {}): Promise<NFTView[]> => {
+interface GetRecentTokens {
+  views: NFTView[];
+  isLastPage: boolean;
+}
+
+export const getRecentTokens = async ({
+  limit = 10,
+  offset = 0,
+  infuser,
+}: RecentTokens = {}): Promise<GetRecentTokens> => {
   const provider = new Provider(getProvider(), 137);
   const wellspringV2 = new MulticallContract(getContracts().wellspringV2, WELLSPRING_V2);
 
@@ -107,7 +117,11 @@ export const getRecentTokens = async ({ limit = 10, offset = 0, infuser }: Recen
   // fetch deets and filter for null (shouldnt happen, just for narrowing)
   const views = await getNFTDetails(tokens);
   const filtered = views.filter((v): v is NFTView => v !== null);
-  return filtered;
+
+  return {
+    views: filtered,
+    isLastPage: views.length != limit,
+  };
 };
 
 export interface InfusionInput {
