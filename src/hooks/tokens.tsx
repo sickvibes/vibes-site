@@ -5,10 +5,6 @@ import { getRecentTokens, NFTView, nftViewId } from '../web3/wellspringv2';
 import { batchGetAuctionInfo, TokenSale } from '../web3/ssw';
 import { getAllTokens } from '../lib/vibes-api';
 
-interface TokenError {
-  message: string;
-}
-
 /**
  * Global info about the protocol
  */
