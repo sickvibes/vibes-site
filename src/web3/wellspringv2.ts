@@ -107,8 +107,7 @@ export const getRecentTokens = async ({ limit = 10, offset = 0, infuser }: Recen
   // fetch deets and filter for null (shouldnt happen, just for narrowing)
   const views = await getNFTDetails(tokens);
   const filtered = views.filter((v): v is NFTView => v !== null);
-  if (filtered.length !== views.length) throw new Error();
-  return filtered; //.filter((t) => t.tokenId !== '785');
+  return filtered;
 };
 
 export interface InfusionInput {
